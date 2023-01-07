@@ -57,7 +57,7 @@ int loop_hook(t_data *img, int x, int y)
     { 
         while(j < cols)
         {
-            if(map[i][j] == 1)
+            if(mape[i][j] == 1)
             {
                draw_wall(j * 42, i * 42, 42, 42, img, 0xFFFFFF);
             }
@@ -70,13 +70,13 @@ int loop_hook(t_data *img, int x, int y)
         j = 0;
         i++;
     }
-	 draw_player(img->player.x, img->player.y, 10, 10, img, 0x00FF00); 
+	draw_player(img->player.x, img->player.y, 10, 10, img, 0x00FF00); 
 	//int x1 = img->player.x + cos(img->player.rotationangle) * 30;
 	//int y1 = img->player.y + sin(img->player.rotationangle) * 30;
 	// int x1= 100;
 	// int y1 = 100;
 	//dda(img, img->player.x, img->player.y, x1, y1);
-    mlx_xpm_file_to_image(img->mlx.mlx, "player.xpm", &x, &y);
+    // mlx_xpm_file_to_image(img->mlx.mlx, "player.xpm", &x, &y);
 	mlx_put_image_to_window(img->mlx.mlx, img->mlx.win, img->img, 0, 0);
 	mlx_key_hook(img->mlx.win, relased, &img->player);
 	return (0);

@@ -78,7 +78,7 @@ int update_player(t_player *player)
     { 
         while(j < cols)
         {
-            if(map[i][j] == 1)
+            if(mape[i][j] == 1)
                 player->mlx.img = mlx_xpm_file_to_image(player->mlx.mlx,"w.xpm", &width, &height);
             else
                 player->mlx.img = mlx_xpm_file_to_image(player->mlx.mlx,"black.xpm", &width, &height);

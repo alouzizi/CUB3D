@@ -5,94 +5,154 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/30 14:13:41 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/04 13:58:11 by alouzizi         ###   ########.fr       */
+/*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
+/*   Updated: 2023/01/07 08:52:28 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// int main()
-// {
-//     void	*mlx_pointer = mlx_init();
-//     void	*window = mlx_new_window(mlx_pointer, 500, 500, "Test");
-//     mlx_loop(mlx_pointer);
-    
-    
-// }
+#include "cub3d.h"
 
-// typedef struct	s_data {
-// 	void	*img;
-// 	char	*addr;
-// 	int		bits_per_pixel;
-// 	int		line_length;
-// 	int		endian;
-// }				t_data;
-
-// void	my_mlx_pixel_put(t_data *data, int x, int y, int color)
-// {
-// 	char	*dst;
-
-// 	dst = data->addr + (y * data->line_length + x * (data->bits_per_pixel / 8));
-// 	*(unsigned int*)dst = color;
-// }
-
-// int	main(void)
-// {
-// 	void	*mlx;
-// 	void	*mlx_win;
-// 	t_data	img;
-
-// 	mlx = mlx_init();
-// 	mlx_win = mlx_new_window(mlx, 1920, 1080, "Hello world!");
-// 	img.img = mlx_new_image(mlx, 1920, 1080);
-// 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
-// 								&img.endian);
-// 	my_mlx_pixel_put(&img, 5, 5, 0x00FF0000);
-// 	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-// 	mlx_loop(mlx);
-// }
-
-#include <stdio.h>
-#include <stdlib.h>
-#include "mlx.h"
-
-int main(int argc, char **argv)
+void initial_values(t_mlx *mlx, t_player *player, t_map *map)
 {
-    // Create the window
-    void *mlx;
-    void *win;
+	mlx->bits_per_pixel = 0;
+	mlx->line_length = 0;
+	mlx->endian = 0;
+	map->row = 12;
+	map->column = 20;
+	//map->maap = mape;
+	map->width = map->column * 42;
+	map->height = map->row * 42;
+	player->x = map->width / 2;
+	player->y = map->height /2;
+	player->radius = 3;
+	player->turndirection = 0;
+	player->walkdirection = 0;
+	player->rotationangle = M_PI / 2;
+	player->movespeed = 15;
+	player->rotationspeed = 15 * (M_PI / 180);
+	mlx->mlx = mlx_init();
+	mlx->win = mlx_new_window(mlx->mlx, map->width, map->height, "SUUUU");
+	mlx->img = mlx_new_image(mlx->mlx, 1920, 1080);
+	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel, &mlx->line_length,
+								&mlx->endian);
+}
 
-int width = 100;
-int height = 100;
+int main(int ac, char **av)
+{
+	t_mlx		mlx;
+	t_map		map;
+	t_player	player;
 
-    mlx = mlx_init();
-    win = mlx_new_window(mlx, 1500, 780, "My Window");
+	initial_values(&mlx, &player, &map);
+	render_map(&map, &player, &mlx);
+	mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img, 0, 0);
+	mlx_loop(mlx.mlx);
+}
+void render_map(t_map *map, t_player *player, t_mlx *mlx)
+{
+	int i;
+	int j;
+	int width;
+	int height;
 
-    // Create the image
-    void *img;
-    // Get the address of the image data
-    int i = 0;
-   int  j = 20;
-    while(i < 1500)
-    {
-        img = mlx_xpm_file_to_image(mlx,"r.xpm", &width, &height);
-        mlx_put_image_to_window(mlx, win, img, i, 0);
-        mlx_put_image_to_window(mlx,win,img,i,760);
-        if (j < 780)
-        {
-            mlx_put_image_to_window(mlx, win,img, 0, j);
-            mlx_put_image_to_window(mlx,win, img,1480,j );
-        }
-        j+=20;
-        i +=20;
+	i = 0;
+	j = 0;
+	mlx_clear_window(mlx->mlx, mlx->win);
+	while(i < map->row)
+	{
+		while(j < map->column)
+		{
+			if(mape[i][j] == 1)
+				draw_wall(j * 42, i * 42, mlx, 0xFFFFFF);
+			else
+				draw_wall(j * 42, i * 42, mlx, 0x00FF0000);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	render_player(player, mlx, 0x00FF00);
+	//mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
+}
+void	render_player(t_player *player, t_mlx *mlx, int color)
+{
+	int i;
+	int j;
+	double x1;
+	double y1;
+
+	i = 0;
+	j = 0;
+	while(i < 10)
+	{
+		while(j < 10)
+		{
+			if (i == 0)
+				my_mlx_pixel_put(mlx, player->x + i, player->y + j, color);
+			j++;
+		}
+		j = 0;
+		i++;
+	}
+	player->rotationangle =+ player->turndirection * player->rotationspeed;
+	x1 = player->x + cos(player->rotationangle) * 30;
+	y1 = player->y + sin(player->rotationangle) * 30;
+	dda(mlx, player->x,player->y,x1,y1);
+}
+
+void dda(t_mlx *mlx,int X0, int Y0, int X1, int Y1)
+{
+    // calculate dx & dy 
+    int dx = X1 - X0;
+    int dy = Y1 - Y0;
+ 
+    // calculate steps required for generating pixels
+    int steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy);
+ 
+    // calculate increment in x & y for each steps
+    float Xinc = dx / (float)steps;
+    float Yinc = dy / (float)steps;
+ 
+    // Put pixel for each step
+    float X = X0;
+    float Y = Y0;
+    for (int i = 0; i <= steps; i++) {
+		my_mlx_pixel_put(mlx,round(X), round(Y), 0x000000); // put pixel at (X,Y)
+        //mlx_pixel_put(mlx->mlx, mlx->win,round(X), round(Y),0x000000); // put pixel at (X,Y)
+        X += Xinc; // increment in x at each step
+        Y += Yinc; // increment in y at each step
     }
-    
+}
 
-    // Modify the pixel data
+void	draw_wall(int x, int y, t_mlx *mlx, int color)
+{
+	int i;
+	int j;
 
-    // Display the image
+	i = 0;
+	j = 0;
+	while(i < 42)
+	{
+		my_mlx_pixel_put(mlx, x + i, y + j, 0x0000FF);
+		while(j < 42)
+		{
+			if (i == 0)
+				my_mlx_pixel_put(mlx, x + i, y + j, 0X000000);
+			else
+				my_mlx_pixel_put(mlx, x + i, y + j, color);
+			j++;
+		}
+		my_mlx_pixel_put(mlx, x + i, y + j, 0X000000);
+		j = 0;
+		my_mlx_pixel_put(mlx, x + i, y + j, 0x000000);
+		i++;
+	}
+}
 
-    // Wait for the user to close the window
-    mlx_loop(mlx);
+void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)
+{
+	char	*dst;
 
-    return 0;
+	dst = mlx->addr + (y * mlx->line_length + x * (mlx->bits_per_pixel / 8));
+	*(unsigned int*)dst = color;
 }
