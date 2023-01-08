@@ -17,6 +17,7 @@ all : $(NAME)
 
 $(NAME) : $(OBJ) cub3d.h
 	$(CC) $(MLX) $(OBJ) -o $(NAME)
+		./cub3d 
 
 %.o: %.c cub3D.h
 	$(CC) $(MLX) -c $< -o $@
@@ -25,5 +26,6 @@ clean:
 	rm -rf $(OBJ)
 fclean: clean
 	rm -rf $(NAME)
+m: fclean
+	make && ./cub3d
 re: fclean all
-

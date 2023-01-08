@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cub3:D.c                                           :+:      :+:    :+:   */
+/*   cub3D.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/08 04:43:18 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/08 10:20:42 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	var_init(t_structs	*g)
 	g->map = malloc(sizeof(t_map));
 	g->player = malloc(sizeof(t_player));
 	g->mlx = malloc(sizeof(t_mlx));
-	if (!g->map || !g->player || !g->mlx)
+	g->ray = malloc(sizeof(t_ray));
+	if (!g->map || !g->player || !g->mlx || !g->ray)
 		exit(1);
 	g->map->row = 12;
 	g->map->column = 20;
@@ -31,6 +32,9 @@ void	var_init(t_structs	*g)
 	g->player->rotationangle = M_PI / 2;
 	g->player->movespeed = 15;
 	g->player->rotationspeed = 15.0 * (M_PI / 180.0);
+	g->ray->fov_angle = 60.0 * (M_PI / 180.0);
+	g->ray->strip_width = 1;
+	g->ray->num_rays = g->map->width / g->ray->strip_width;
 	g->mlx->mlx = mlx_init();
 	g->mlx->win = mlx_new_window(g->mlx->mlx, g->map->width, g->map->height, "SUUUU");
 	g->mlx->img = mlx_new_image(g->mlx->mlx, g->map->width, g->map->height);
@@ -43,6 +47,7 @@ int	render(t_structs *g)
 	mlx_clear_window(g->mlx->mlx, g->mlx->win);
 	draw_map(g);
 	draw_player(g);
+	cast_all_rays(g);
 	mlx_put_image_to_window(g->mlx->mlx, g->mlx->win, g->mlx->img, 0, 0);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 04:06:01 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/08 04:46:07 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/08 08:21:42 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,33 +67,37 @@ int	key_hook(int key, t_structs *g)
 	return (0);
 }
 
-void update(t_structs *g, int j)
+void	update(t_structs *g, int j)
 {
-	int step;
-    int x;
-    int y;
-    step = g->player->walkdirection * g->player->movespeed;
-    if(j == 1)
-    {
-        x = round(g->player->x + cos(g->player->rotationangle) * step);
-        y = round(g->player->y + sin(g->player->rotationangle) * step);
-    }
-    if (j != 1)
-    {
-        step = g->player->turndirection * g->player->movespeed;
-        if (g->player->turndirection == 1)
-        {
-            x = round(g->player->x - sin(g->player->rotationangle) * 10);
-            y = round(g->player->y + cos(g->player->rotationangle) * 10);
-        }
-        if (g->player->turndirection == -1)
-        {
-            x = round(g->player->x + sin(g->player->rotationangle) * 10);
-            y = round(g->player->y - cos(g->player->rotationangle) * 10);
-        }
-    }  
-    g->player->x = x;
-    g->player->y = y;
-    g->player->turndirection = 0;
-    g->player->walkdirection = 0;
+	int	step;
+	int	x;
+	int	y;
+
+	step = g->player->walkdirection * g->player->movespeed;
+	if(j == 1)
+	{
+		x = round(g->player->x + cos(g->player->rotationangle) * step);
+		y = round(g->player->y + sin(g->player->rotationangle) * step);
+	}
+	if (j != 1)
+	{
+		step = g->player->turndirection * g->player->movespeed;
+		if (g->player->turndirection == 1)
+		{
+			x = round(g->player->x - sin(g->player->rotationangle) * 10);
+			y = round(g->player->y + cos(g->player->rotationangle) * 10);
+		}
+		if (g->player->turndirection == -1)
+		{
+			x = round(g->player->x + sin(g->player->rotationangle) * 10);
+			y = round(g->player->y - cos(g->player->rotationangle) * 10);
+		}
+	}
+	if (!there_is_wall_at(x, y, g))
+	{
+		g->player->x = x;
+		g->player->y = y;
+	}
+	g->player->turndirection = 0;
+	g->player->walkdirection = 0;
 }
