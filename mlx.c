@@ -32,7 +32,7 @@ int	main(void)
 	i = j = 0;
 	mlx.mlx = mlx_init();
 	mlx.win = mlx_new_window(mlx.mlx, width, height, "Hello world!");
-	img.img = mlx_new_image(mlx.mlx, 1920, 1080);
+	img.img = mlx_new_image(mlx.mlx, width, height);
 	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length,
 								&img.endian);
 	// mlx_put_image_to_window(mlx.mlx, mlx.win, img.img, 0, 0);
@@ -168,7 +168,7 @@ void draw_wall(int x, int y, int width, int height, t_data *img, int color)
 	int j = 0;
 	while(i < width)
 	{
-        my_mlx_pixel_put(img, x + i, y + j, 0x0000FF);
+        //my_mlx_pixel_put(img, x + i, y + j, 0x0000FF);
 		while(j < height)
 		{
             if(i == 0)
@@ -177,10 +177,10 @@ void draw_wall(int x, int y, int width, int height, t_data *img, int color)
 			    my_mlx_pixel_put(img, x + i, y + j, color);
 			j++;
 		}
-        my_mlx_pixel_put(img, x + i, y + j, 0x0000FF);
+        my_mlx_pixel_put(img, x + i, y + (j-1), 0x000000);
 		j = 0;
         
-        my_mlx_pixel_put(img, x + i, y + j, 0x000000);
+       // my_mlx_pixel_put(img, x + i, y + j, 0x000000);
 		i++;
 	}
 }
@@ -200,6 +200,7 @@ void draw_player(int x, int y , int width, int height, t_data *img, int color)
         i++;
     }
     img->player.rotationangle += img->player.rotationspeed * img->player.turndirection;
+    printf("rotation angle : %f\n", img->player.rotationangle);
     int x1 = x + cos(img->player.rotationangle) * 30;
     int y1 = y + sin(img->player.rotationangle) * 30;
     // img->player.turndirection = 0;

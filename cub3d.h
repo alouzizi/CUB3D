@@ -5,22 +5,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <unistd.h>
-int abs(int n) { return ((n > 0) ? n : (n * (-1))); }
-int mape[12][20] =
-{
-    { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-    { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-    { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1 },
-    { 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1 },
-    { 1, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1 },
-    { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1 },
-    { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 },
-    { 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1 },
-    { 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1 },
-    { 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-    { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
-    { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
-};
+#include <stdlib.h>
 
 typedef struct mlx
 {
@@ -64,11 +49,20 @@ typedef struct map
 	char    *ea;
 }t_map;
 
-void	initial_values(t_mlx *mlx, t_player *player, t_map *map);
-void	render_map(t_map *map, t_player *player, t_mlx *mlx);
-void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
-void	draw_wall(int x, int y, t_mlx *mlx, int color);
-void	dda(t_mlx *mlx,int X0, int Y0, int X1, int Y1);
-void	render_player(t_player *player, t_mlx *mlx, int color);
+typedef struct structs
+{
+    t_mlx		*mlx;
+    t_map		*map;
+    t_player	*player;
+}t_structs;
 
+void    var_init(t_structs	*g);
+int     render(t_structs *g);
+void    draw_map(t_structs *g);
+void	draw_player(t_structs *g);
+void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
+void    draw_wall(t_structs *g, int x, int y, int color);
+void    dda(t_mlx *mlx,int X0, int Y0, int X1, int Y1);
+int     key_hook(int key, t_structs *g);
+void    update(t_structs *g, int j);
 #endif
