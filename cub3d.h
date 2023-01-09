@@ -57,21 +57,30 @@ typedef struct map
     int     row;
     int     column;
     int		maap[12][20];
-	char    *no;
-	char    *so;
-	char    *we;
-	char    *ea;
+//	char    *no;
+//	char    *so;
+//	char    *we;
+//	char    *ea;
 }t_map;
 
 typedef struct ray
 {
 	int		num_rays;
-	int		strip_width; 
+    double  rayangle;
+	int		stripwidth; 
 	double	fov_angle;
-	double	ray_angle; 
-	double	wall_hit_x;
-	double	wall_hit_y;
+	double	wallhitx;
+	double	wallhity;
 	double	distance;
+    double  xintercept;
+    double  yintercept;
+    double  xstep;
+    double  ystep;
+    int     facingup;
+    int     facingleft;
+    int     facingdown;
+    int     facingright;
+    double *rays;
 }t_ray;
 
 typedef struct structs
@@ -93,7 +102,8 @@ int		key_hook(int key, t_structs *g);
 void	update(t_structs *g, int j);
 int		there_is_wall_at(double x, double y, t_structs *g);
 void	cast_all_rays(t_structs *g);
-void	cast_ray(double rayangle, t_structs *g);
+void	cast_ray(t_structs *g);
 double	normalize_angle(double angle);
+void cast(int id, t_structs *g);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/08 10:20:42 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/09 09:28:11 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ void	var_init(t_structs	*g)
 	g->player->walkdirection = 0;
 	g->player->rotationangle = M_PI / 2;
 	g->player->movespeed = 15;
-	g->player->rotationspeed = 15.0 * (M_PI / 180.0);
+	g->player->rotationspeed = 15 * (M_PI / 180.0);
 	g->ray->fov_angle = 60.0 * (M_PI / 180.0);
-	g->ray->strip_width = 1;
-	g->ray->num_rays = g->map->width / g->ray->strip_width;
+	g->ray->stripwidth = 1;
+	g->ray->rays = malloc(sizeof(double) * g->ray->num_rays);
+	g->ray->num_rays = g->map->width / g->ray->stripwidth;
 	g->mlx->mlx = mlx_init();
 	g->mlx->win = mlx_new_window(g->mlx->mlx, g->map->width, g->map->height, "SUUUU");
 	g->mlx->img = mlx_new_image(g->mlx->mlx, g->map->width, g->map->height);
@@ -55,7 +56,6 @@ int	render(t_structs *g)
 int main(int ac, char **av)
 {
 	t_structs	game;
-
 	var_init(&game);
 	render(&game);
 	mlx_key_hook(game.mlx->win, key_hook, &game);

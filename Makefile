@@ -26,6 +26,6 @@ clean:
 	rm -rf $(OBJ)
 fclean: clean
 	rm -rf $(NAME)
-m: fclean
+m: fclean±±
 	make && ./cub3d
 re: fclean all
