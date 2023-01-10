@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 02:19:47 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/09 09:32:27 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/10 04:33:02 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,21 +59,21 @@ void cast_all_rays(t_structs *g)
 	// g->ray->rays = malloc(sizeof(double) * g->ray->num_rays);
 	i = 0;
 	g->ray->rayangle = g->player->rotationangle - (g->ray->fov_angle / 2);
-	// while (i < g->ray->num_rays)
-	// {
+	while (i < g->ray->num_rays)
+	{
 	printf("g->ray->rayangle ****%f \n ", g->ray->rayangle);
 		cast(i, g);
 		//cast_ray(g);
-		// g->ray->rayangle += g->ray->fov_angle / g->ray->num_rays;
-		// i++;
-	// }
+		g->ray->rayangle += g->ray->fov_angle / g->ray->num_rays;
+		i++;
+	}
 }
 
 void cast(int id, t_structs *g)
 {
 	g->ray->rayangle = normalize_angle(g->ray->rayangle);
 	g->ray->rays[0] = g->ray->rayangle;
-	printf("rayangle = %f\n", g->ray->rays[0]);
+	//printf("rayangle = %f\n", g->ray->rays[0]);
 	g->ray->facingdown = 0;
 	g->ray->facingup = 0;
 	g->ray->facingright = 0;
@@ -85,11 +85,12 @@ void cast(int id, t_structs *g)
 	g->ray->yintercept = 0;
 	g->ray->xstep = 0;
 	g->ray->ystep = 0;
-	double x , y;
+	g->ray->findhorz = 0;
+	g->ray->findvert = 0;
+	
+	// double x , y;
 
-	x = y =0;
-	//*************************************************************//
- 
+	// x = y =0;
 	if (g->ray->rays[0] > 0 && g->ray->rays[0] < M_PI)
 		g->ray->facingdown = 1;
 	else
@@ -100,67 +101,131 @@ void cast(int id, t_structs *g)
 	else
 		g->ray->facingleft = 1;
 
+	horizontale(g);
+	verticale(g);
+	
+	double horidistance;
+	double vertdistance;
+	if(g->ray->findhorz)
+		horidistance = distancebetweenpoints(g, g->ray->horizwallhitx, g->ray->horizwallhity);
+	else
+		horidistance = INT_MAX;
+	if(g->ray->findvert)	
+		vertdistance = distancebetweenpoints(g, g->ray->vertwallhitx, g->ray->vertwallhity);
+	else
+		vertdistance = INT_MAX;
+	if (horidistance < vertdistance)
+	{
+		g->ray->wallhitx = g->ray->horizwallhitx;
+		g->ray->wallhity = g->ray->horizwallhity;
+	}
+	else
+	{
+		g->ray->wallhitx = g->ray->vertwallhitx; 
+		g->ray->wallhity = g->ray->vertwallhity;
+	}
 	//*************************************************************//
+	
+	dda(g->mlx, g->player->x, g->player->y, g->ray->wallhitx, g->ray->wallhity);
+	//*************************************************************//
+ 
+
+}
+
+double distancebetweenpoints(t_structs *g , double x, double y)
+{
+	//return (sqrt(pow(x - g->player->x, 2) + pow(y - g->player->y, 2)));
+	return (sqrt((x - g->player->x) * (x - g->player->x) + (y - g->player->y) * (y - g->player->y)));
+}
+
+void horizontale(t_structs *g)
+{
 
 	g->ray->yintercept = floor(g->player->y / 42) * 42; 
 	if (g->ray->facingdown)
 		g->ray->yintercept += 42;
-	//*************************************************************//
-
-	printf("g->ray->xintercept %f\n", g->ray->xintercept);
-	printf("g->ray->yintercept %f\n", g->ray->yintercept);
-	printf("g->player->x %f\n", g->player->x);
-	printf("test %f\n", g->ray->yintercept - g->player->y) 
-			/ tan(g->ray->rays[0]);
 	g->ray->xintercept = g->player->x + (g->ray->yintercept - g->player->y) / tan(g->ray->rays[0]);
-
-	//*************************************************************//
-	
 	g->ray->ystep = 42;
 	if (g->ray->facingup)
 		g->ray->ystep *= -1;
-	//*************************************************************//
-
 	g->ray->xstep = 42 / tan(g->ray->rays[0]);
 	if (g->ray->facingleft && g->ray->xstep > 0)
 		g->ray->xstep *= -1;
 	if (g->ray->facingright && g->ray->xstep < 0)
 		g->ray->xstep *= -1;
-	//*************************************************************//
-	g->ray->wallhitx = g->ray->xintercept;
-	g->ray->wallhity = g->ray->yintercept;
-	//*************************************************************//
+	g->ray->horizwallhitx= g->ray->xintercept;
+	g->ray->horizwallhity = g->ray->yintercept;
 	if (g->ray->facingup)
-		g->ray->wallhity--;
-	//*************************************************************//
-	printf("g->ray->wallhitx = %f || g->ray->hit y = %f \n", g->ray->wallhitx, g->ray->wallhity);
-	printf("g->map->width = %d || g->map->height = %d \n", g->map->width, g->map->height);
-	while (g->ray->wallhitx >= 0 && g->ray->wallhitx <= g->map->width 
-			&& g->ray->wallhity >= 0 && g->ray->wallhity <= g->map->height)
+		g->ray->horizwallhity--;
+	while (g->ray->horizwallhitx>= 0 && g->ray->horizwallhitx<= g->map->width 
+			&& g->ray->horizwallhity >= 0 && g->ray->horizwallhity <= g->map->height)
 	{
-		printf("hoola\n");
-		printf("x = %f\n", g->ray->wallhitx);
-		printf("y = %f\n", g->ray->wallhity);
-		if (there_is_wall_at(g->ray->wallhitx, g->ray->wallhity, g))
+		if (there_is_wall_at(g->ray->horizwallhitx, g->ray->horizwallhity, g))
 		{
-			x = g->ray->wallhitx;
-			y = g->ray->wallhity;
-			printf("***********\n");
-			dda(g->mlx, g->player->x, g->player->y, x, y);
-			break;
+			//g->ray->horizhorizwallhitx= g->ray->wallhitx;
+			//g->ray->horizhorizwallhity = g->ray->horizwallhity;
+			//printf(" ||player x = %f\n player y = %f hori x = %f hori y = %f \n", g->player->x, g->player->y, g->ray->horizwallhitx, g->ray->horizhorizwallhity);
+			//dda(g->mlx, g->player->x, g->player->y, g->ray->horizwallhitx, g->ray->horizhorizwallhity);
+			g->ray->findhorz = 1;
+			return;
 		}
 		else
 		{
-			g->ray->wallhitx += g->ray->xstep;
-			g->ray->wallhity += g->ray->ystep;
+			g->ray->horizwallhitx+= g->ray->xstep;
+			g->ray->horizwallhity += g->ray->ystep;
+		}
+	}
+}
+
+void	verticale(t_structs *g)
+{
+
+	g->ray->xintercept = floor(g->player->x / 42) * 42; 
+	if (g->ray->facingright)
+		g->ray->xintercept += 42;
+	//*************************************************************//
+	g->ray->yintercept = g->player->y + (g->ray->xintercept - g->player->x ) * tan(g->ray->rays[0]);
+
+	//*************************************************************//
+	
+	g->ray->xstep = 42;
+	if (g->ray->facingleft)
+		g->ray->xstep *= -1;
+	//*************************************************************//
+
+	g->ray->ystep = 42 * tan(g->ray->rays[0]);
+	if (g->ray->facingup && g->ray->ystep > 0)
+		g->ray->ystep *= -1;
+	if (g->ray->facingdown && g->ray->ystep < 0)
+		g->ray->ystep *= -1;
+	//*************************************************************//
+	g->ray->vertwallhitx = g->ray->xintercept;
+	g->ray->vertwallhity = g->ray->yintercept;
+	//*************************************************************//
+	if (g->ray->facingleft)
+		g->ray->vertwallhitx--;
+	//*************************************************************//
+	while (g->ray->vertwallhitx >= 0 && g->ray->vertwallhitx <= g->map->width 
+			&& g->ray->vertwallhity >= 0 && g->ray->vertwallhity <= g->map->height)
+	{
+		if (there_is_wall_at(g->ray->vertwallhitx, g->ray->vertwallhity, g))
+		{
+			//g->ray->vertwallhitx = g->ray->vertwallhitx;
+			//g->ray->vertwallhity = g->ray->vertwallhity;
+			//printf(" ||player x = %f\n player y = %f hori x = %f hori y = %f \n", g->player->x, g->player->y, g->ray->horizvertwallhitx, g->ray->horizvertwallhity);
+			//dda(g->mlx, g->player->x, g->player->y, g->ray->horizwallhitx, g->ray->horizvertwallhity);
+			g->ray->findvert = 1;
+			return;
+		}
+		else
+		{
+			g->ray->vertwallhitx += g->ray->xstep;
+			g->ray->vertwallhity += g->ray->ystep;
 			
 		}
 	}
-	
-	printf("isfacingRight? %d\n", g->ray->facingright);
-	//printf("isfacingLeft? %d\n", g->ray->facingleft);
-	printf("isfacingUp? %d\n", g->ray->facingup);
 }
+
 
 
 double normalize_angle(double angle)

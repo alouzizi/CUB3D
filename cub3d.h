@@ -6,6 +6,7 @@
 #include <math.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <limits.h>
 
 static int mape[12][20] ={
     { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -80,6 +81,12 @@ typedef struct ray
     int     facingleft;
     int     facingdown;
     int     facingright;
+    double  horizwallhitx;
+    double  horizwallhity;
+    double  vertwallhitx;
+    double  vertwallhity;
+    int     findhorz;
+    int    findvert;
     double *rays;
 }t_ray;
 
@@ -105,5 +112,7 @@ void	cast_all_rays(t_structs *g);
 void	cast_ray(t_structs *g);
 double	normalize_angle(double angle);
 void cast(int id, t_structs *g);
-
+void horizontale(t_structs *g);
+void	verticale(t_structs *g);
+double distancebetweenpoints(t_structs *g , double x, double y);
 #endif

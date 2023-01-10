@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 04:06:01 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/09 09:31:23 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/10 04:43:13 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void    dda(t_mlx *mlx,int X0, int Y0, int X1, int Y1)
 
 int	key_hook(int key, t_structs *g)
 {
+	printf("key = %d\n", key);
 	if (key == 13)
 		g->player->walkdirection = 1;
 	if (key == 1)
@@ -74,24 +75,18 @@ void	update(t_structs *g, int j)
 	double	y;
 
 	step = g->player->walkdirection * g->player->movespeed;
-	if(j == 1)
+	x = round(g->player->x + cos(g->player->rotationangle) * step);
+	y = round(g->player->y + sin(g->player->rotationangle) * step);
+	//step = g->player->turndirection * g->player->movespeed;
+	if (g->player->turndirection == 1)
 	{
-		x = round(g->player->x + cos(g->player->rotationangle) * 42);
-		y = round(g->player->y + sin(g->player->rotationangle) * 42);
+		x = round(g->player->x - sin(g->player->rotationangle) * 10);
+		y = round(g->player->y + cos(g->player->rotationangle) * 10);
 	}
-	if (j != 1)
+	if (g->player->turndirection == -1)
 	{
-		step = g->player->turndirection * g->player->movespeed;
-		if (g->player->turndirection == 1)
-		{
-			x = round(g->player->x - sin(g->player->rotationangle) * 42);
-			y = round(g->player->y + cos(g->player->rotationangle) * 42);
-		}
-		if (g->player->turndirection == -1)
-		{
-			x = round(g->player->x + sin(g->player->rotationangle) * 42);
-			y = round(g->player->y - cos(g->player->rotationangle) * 42);
-		}
+		x = round(g->player->x + sin(g->player->rotationangle) * 10);
+		y = round(g->player->y - cos(g->player->rotationangle) * 10);
 	}
 	if (!there_is_wall_at(x, y, g))
 	{
