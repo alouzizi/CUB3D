@@ -5,15 +5,14 @@ SRCS = map.c \
 		player.c \
 		utils.c \
 		cub3D.c \
-		parsing/assests_check.c \
-		parsing/check_p_map.c \
+		parsing/check_assets.c \
+		parsing/check_map.c \
 		parsing/get_map.c \
-		parsing/init.c \
-		parsing/map_utilc.c\
 		parsing/map_utils.c \
-		parsing/player_chek_utils.c \
+		parsing/map_utils2.c \
+		parsing/player_check.c \
 		parsing/utils.c \
-		gnl/get_next_line.c
+		get_next_line.c
 
 CC = cc
 

@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 02:19:44 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/08 07:48:43 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/10 22:49:47 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void draw_map(t_structs *g)
 	{
 		while (x < g->map->column)
 		{
-			if (mape[y][x] == 1)
+			if (g->map->map[y][x] ==  '1' || g->map->map[y][x] == ' ')
 				draw_wall(g, x * 42, y * 42, 0xFFFFFF);
 			else
 				draw_wall(g, x * 42, y * 42, 0x00FF0000);

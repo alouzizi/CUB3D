@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 04:06:01 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/10 04:43:13 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/10 05:20:54 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void    dda(t_mlx *mlx,int X0, int Y0, int X1, int Y1)
 
 int	key_hook(int key, t_structs *g)
 {
-	printf("key = %d\n", key);
 	if (key == 13)
 		g->player->walkdirection = 1;
 	if (key == 1)
