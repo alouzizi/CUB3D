@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 22:56:05 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/10 22:58:18 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/11 02:03:33 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static int	ft_left(char const *s1, char const *set)
 	}
 	return (i);
 }
-
 
 char	*ft_strtrim(char *s1, char *set)
 {

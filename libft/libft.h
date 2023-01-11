@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/11 02:07:23 by alouzizi          #+#    #+#             */
+/*   Updated: 2023/01/11 02:08:06 by alouzizi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LIBFT_H
 # define LIBFT_H
 # include <stdlib.h>
 # include <stdbool.h>
 # include <unistd.h>
-
 
 char	*ft_itoa(int n);
 char	*ft_substr(char *s, unsigned int start, size_t len);
