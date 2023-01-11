@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 02:19:44 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/10 22:49:47 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/11 08:42:51 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void draw_map(t_structs *g)
 		while (x < g->map->column)
 		{
 			if (g->map->map[y][x] ==  '1' || g->map->map[y][x] == ' ')
-				draw_wall(g, x * 42, y * 42, 0xFFFFFF);
+				draw_wall(g, x * TILE_SIZE, y * TILE_SIZE, 0xFFFFFF);
 			else
-				draw_wall(g, x * 42, y * 42, 0x00FF0000);
+				draw_wall(g, x * TILE_SIZE, y * TILE_SIZE, 0x00FF0000);
 			x++;
 		}
 		x = 0;
@@ -39,9 +39,9 @@ void draw_wall(t_structs *g, int x, int y, int color)
 	int j;
 
 	i = j = 0;
-	while (i < 42)
+	while (i < TILE_SIZE)
 	{
-		while (j < 42)
+		while (j < TILE_SIZE)
 		{
 			if (i == 0)
 				my_mlx_pixel_put(g->mlx, x + i, y + j, 0x000000);

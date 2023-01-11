@@ -6,23 +6,30 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 05:34:04 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/10 07:37:54 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:52:58 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	projectionwall(t_structs *g)
+void	projectionwall(t_structs *g ,int id)
 {
-	int		id;
-	double	wallstriph;
-	double	distanceprojplane;
+	double	distanceprojectplane;
+	double 	raydistance;
+	double	wallstripheight;
+	double	top;
+	double	bottom;
+	
+	raydistance = g->ray[id].distance;
+	distanceprojectplane = (WIDTH / g->map->row / 2) / tan(g->cast->fov_angle / 2) * 0.8;
+	wallstripheight = (TILE_SIZE / raydistance) * distanceprojectplane;
+	top = (HEIGHT / 2) - (wallstripheight / 2);
 
-	id = 0;
-	while(id < g->ray->num_rays)
+	bottom = wallstripheight + top;
+	while(top <= bottom)
 	{
-		distanceprojplane = (g->map->width / 2) / tan(g->ray->fov_angle / 2);
-		wallstriph = (TILE_SIZE / g->ray->rays[id]) * distanceprojplane;
-
+		my_mlx_pixel_put(g->mlx, id, top, 0x00FF0000);
+		top++;
 	}
+
 }

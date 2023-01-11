@@ -6,20 +6,23 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 04:06:01 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/10 05:20:54 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/11 09:37:35 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
 
 int abs(int n) { return ((n > 0) ? n : (n * (-1))); }
 
 void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)
 {
 	char	*dst;
-
+	if ((x > 0 && x < WIDTH) && (y > 0 && y < HEIGHT))
+	{
 	dst = mlx->addr + (y * mlx->line_length + x * (mlx->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
+	}
 }
 
 void    dda(t_mlx *mlx,int X0, int Y0, int X1, int Y1)
@@ -60,14 +63,12 @@ int	key_hook(int key, t_structs *g)
 		g->player->rotationangle += g->player->rotationspeed;
 	if (key == 123)
 		g->player->rotationangle -= g->player->rotationspeed;
-	if (key == 13 || key == 1)
-		update(g, 1);
-	if (key == 0 || key == 2)
-		update(g, 0);
+	if (key == 13 || key == 1 || key == 0 || key == 2)
+		update(g);
 	return (0);
 }
 
-void	update(t_structs *g, int j)
+void	update(t_structs *g)
 {
 	int	step;
 	double	x;

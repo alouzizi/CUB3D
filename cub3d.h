@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/11 02:07:14 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/11 11:10:35 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@
 #define PI 3.1415926535
 #define MINIMAP 0.2
 #define TILE_SIZE 42
+#define WALL_STRIP_WIDTH 1
 # define NO 1
 # define SO 2
 # define WE 3
 # define EA 4
 # define F 5
 # define C 6
+#define WIDTH 1008
+#define HEIGHT 462
 
 static int mape[12][20] ={
     { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
@@ -93,7 +96,7 @@ typedef struct map
     char	**o_map;
 }t_map;
 
-typedef struct ray
+typedef struct cast
 {
 	int		num_rays;
 	double	rayangle;
@@ -106,10 +109,6 @@ typedef struct ray
 	double  yintercept;
 	double  xstep;
 	double  ystep;
-	int		facingup;
-	int		facingleft;
-	int		facingdown;
-	int		facingright;
 	double	horizwallhitx;
 	double	horizwallhity;
 	double	vertwallhitx;
@@ -117,9 +116,9 @@ typedef struct ray
 	int		findhorz;
 	int		findvert;
 	double *rays;
-}t_ray;
+}t_cast;
 
-typedef struct cast
+typedef struct ray
 {
 	double	wallhitx;//
 	double	wallhity;//
@@ -128,8 +127,9 @@ typedef struct cast
     int     facingleft;//
     int     facingdown;//
     int     facingright;//
-    double rayangle;
-}t_cast;
+}t_ray;
+
+
 
 typedef struct structs
 {
@@ -148,16 +148,16 @@ void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
 void	draw_wall(t_structs *g, int x, int y, int color);
 void	dda(t_mlx *mlx,int X0, int Y0, int X1, int Y1);
 int		key_hook(int key, t_structs *g);
-void	update(t_structs *g, int j);
+void	update(t_structs *g);
 int		there_is_wall_at(double x, double y, t_structs *g);
 void	cast_all_rays(t_structs *g);
 void	cast_ray(t_structs *g);
 double	normalize_angle(double angle);
 void cast(int id, t_structs *g);
-void horizontale(t_structs *g);
-void	verticale(t_structs *g);
+void horizontale(t_structs *g, int id);
+void	verticale(t_structs *g, int id);
 double distancebetweenpoints(t_structs *g , double x, double y);
-
+void	projectionwall(t_structs *g , int id);
 
 bool	get_map(char *file, t_map *map);
 bool	ft_check_extention(char *str);

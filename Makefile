@@ -1,10 +1,13 @@
 NAME = cub3d
-
+HEADER = cub3d.h
 
 SRCS = map.c \
 		player.c \
 		utils.c \
 		cub3D.c \
+		cast.c \
+		projection.c \
+		get_next_line.c \
 		parsing/check_assets.c \
 		parsing/check_map.c \
 		parsing/get_map.c \
@@ -12,13 +15,12 @@ SRCS = map.c \
 		parsing/map_utils2.c \
 		parsing/player_check.c \
 		parsing/utils.c \
-		get_next_line.c
 
 CC = cc
 
-OBJ = $(SRCS:%.c=%.o)
+OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror 
 
 LIBFT = ./libft/libft.a
 
@@ -26,17 +28,19 @@ MLX = -lmlx -framework OpenGL -framework AppKit
 
 all : $(NAME)
 
-$(NAME) : $(OBJ) cub3d.h $(LIBFT)
-	$(CC) $(MLX) $(OBJ) $(LIBFT) -o $(NAME)
+$(NAME) : $(OBJS) cub3d.h $(LIBFT)
+	$(CC) $(FLAGS) $(MLX) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT) :
 	@make -C./libft
 
-%.o: %.c cub3D.h
-	$(CC) $(MLX) -c $< -o $@
+$(OBJS) : $(HEADER)
+
+$(OBJS) : %.o : %.c
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJ)
+	rm -rf $(OBJS)
 	@make clean -C libft
 fclean: clean
 	rm -rf $(NAME)
