@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 02:19:47 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/10 04:33:02 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/11 01:56:54 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	there_is_wall_at(double x, double y, t_structs *g)
 		return (1);
 	mapgridindexx = x / 42;
 	mapgridindexy = y / 42;
-	if (mape[mapgridindexy][mapgridindexx] == 0)
+	if (g->map->map[mapgridindexy][mapgridindexx] == '0' || g->map->map[mapgridindexy][mapgridindexx] == 'W')
 		return (0);
 	else
 		return (1);
@@ -61,7 +61,6 @@ void cast_all_rays(t_structs *g)
 	g->ray->rayangle = g->player->rotationangle - (g->ray->fov_angle / 2);
 	while (i < g->ray->num_rays)
 	{
-	printf("g->ray->rayangle ****%f \n ", g->ray->rayangle);
 		cast(i, g);
 		//cast_ray(g);
 		g->ray->rayangle += g->ray->fov_angle / g->ray->num_rays;
@@ -71,9 +70,11 @@ void cast_all_rays(t_structs *g)
 
 void cast(int id, t_structs *g)
 {
+	
 	g->ray->rayangle = normalize_angle(g->ray->rayangle);
 	g->ray->rays[0] = g->ray->rayangle;
-	//printf("rayangle = %f\n", g->ray->rays[0]);
+	double horidistance;
+	double vertdistance;
 	g->ray->facingdown = 0;
 	g->ray->facingup = 0;
 	g->ray->facingright = 0;
@@ -87,10 +88,7 @@ void cast(int id, t_structs *g)
 	g->ray->ystep = 0;
 	g->ray->findhorz = 0;
 	g->ray->findvert = 0;
-	
-	// double x , y;
 
-	// x = y =0;
 	if (g->ray->rays[0] > 0 && g->ray->rays[0] < M_PI)
 		g->ray->facingdown = 1;
 	else
@@ -100,12 +98,8 @@ void cast(int id, t_structs *g)
 		g->ray->facingright = 1;
 	else
 		g->ray->facingleft = 1;
-
 	horizontale(g);
 	verticale(g);
-	
-	double horidistance;
-	double vertdistance;
 	if(g->ray->findhorz)
 		horidistance = distancebetweenpoints(g, g->ray->horizwallhitx, g->ray->horizwallhity);
 	else
@@ -116,26 +110,20 @@ void cast(int id, t_structs *g)
 		vertdistance = INT_MAX;
 	if (horidistance < vertdistance)
 	{
-		g->ray->wallhitx = g->ray->horizwallhitx;
-		g->ray->wallhity = g->ray->horizwallhity;
+		g->cast[id].wallhitx = g->ray->horizwallhitx;
+		g->cast[id].wallhity = g->ray->horizwallhity;
 	}
 	else
 	{
-		g->ray->wallhitx = g->ray->vertwallhitx; 
-		g->ray->wallhity = g->ray->vertwallhity;
+		g->cast[id].wallhitx = g->ray->vertwallhitx; 
+		g->cast[id].wallhity = g->ray->vertwallhity;
 	}
-	//*************************************************************//
-	
-	dda(g->mlx, g->player->x, g->player->y, g->ray->wallhitx, g->ray->wallhity);
-	//*************************************************************//
- 
-
+	dda(g->mlx, g->player->x, g->player->y, g->cast[id].wallhitx, g->cast[id].wallhity);
 }
 
 double distancebetweenpoints(t_structs *g , double x, double y)
 {
-	//return (sqrt(pow(x - g->player->x, 2) + pow(y - g->player->y, 2)));
-	return (sqrt((x - g->player->x) * (x - g->player->x) + (y - g->player->y) * (y - g->player->y)));
+	return (sqrt(pow(x - g->player->x, 2) + pow(y - g->player->y, 2)));
 }
 
 void horizontale(t_structs *g)
@@ -162,10 +150,6 @@ void horizontale(t_structs *g)
 	{
 		if (there_is_wall_at(g->ray->horizwallhitx, g->ray->horizwallhity, g))
 		{
-			//g->ray->horizhorizwallhitx= g->ray->wallhitx;
-			//g->ray->horizhorizwallhity = g->ray->horizwallhity;
-			//printf(" ||player x = %f\n player y = %f hori x = %f hori y = %f \n", g->player->x, g->player->y, g->ray->horizwallhitx, g->ray->horizhorizwallhity);
-			//dda(g->mlx, g->player->x, g->player->y, g->ray->horizwallhitx, g->ray->horizhorizwallhity);
 			g->ray->findhorz = 1;
 			return;
 		}
@@ -183,37 +167,24 @@ void	verticale(t_structs *g)
 	g->ray->xintercept = floor(g->player->x / 42) * 42; 
 	if (g->ray->facingright)
 		g->ray->xintercept += 42;
-	//*************************************************************//
 	g->ray->yintercept = g->player->y + (g->ray->xintercept - g->player->x ) * tan(g->ray->rays[0]);
-
-	//*************************************************************//
-	
 	g->ray->xstep = 42;
 	if (g->ray->facingleft)
 		g->ray->xstep *= -1;
-	//*************************************************************//
-
 	g->ray->ystep = 42 * tan(g->ray->rays[0]);
 	if (g->ray->facingup && g->ray->ystep > 0)
 		g->ray->ystep *= -1;
 	if (g->ray->facingdown && g->ray->ystep < 0)
 		g->ray->ystep *= -1;
-	//*************************************************************//
 	g->ray->vertwallhitx = g->ray->xintercept;
 	g->ray->vertwallhity = g->ray->yintercept;
-	//*************************************************************//
 	if (g->ray->facingleft)
 		g->ray->vertwallhitx--;
-	//*************************************************************//
 	while (g->ray->vertwallhitx >= 0 && g->ray->vertwallhitx <= g->map->width 
 			&& g->ray->vertwallhity >= 0 && g->ray->vertwallhity <= g->map->height)
 	{
 		if (there_is_wall_at(g->ray->vertwallhitx, g->ray->vertwallhity, g))
 		{
-			//g->ray->vertwallhitx = g->ray->vertwallhitx;
-			//g->ray->vertwallhity = g->ray->vertwallhity;
-			//printf(" ||player x = %f\n player y = %f hori x = %f hori y = %f \n", g->player->x, g->player->y, g->ray->horizvertwallhitx, g->ray->horizvertwallhity);
-			//dda(g->mlx, g->player->x, g->player->y, g->ray->horizwallhitx, g->ray->horizvertwallhity);
 			g->ray->findvert = 1;
 			return;
 		}
@@ -225,8 +196,6 @@ void	verticale(t_structs *g)
 		}
 	}
 }
-
-
 
 double normalize_angle(double angle)
 {

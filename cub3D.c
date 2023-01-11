@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/10 04:43:18 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/11 01:55:00 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,15 @@
 
 void	var_init(t_structs	*g)
 {
-	g->map = malloc(sizeof(t_map));
 	g->player = malloc(sizeof(t_player));
 	g->mlx = malloc(sizeof(t_mlx));
 	g->ray = malloc(sizeof(t_ray));
-	if (!g->map || !g->player || !g->mlx || !g->ray)
+	if (!g->player || !g->mlx || !g->ray)
 		exit(1);
-	g->map->row = 12;
-	g->map->column = 20;
 	g->map->width = g->map->column * 42;
 	g->map->height = g->map->row * 42;
-	g->player->x = g->map->width /2;
-	g->player->y = g->map->height /2;
+	g->player->x = (g->map->px + 0.5)* 42;
+	g->player->y = (g->map->py + 0.5)* 42;
 	g->player->radius = 3;
 	g->player->turndirection = 0;
 	g->player->walkdirection = 0;
@@ -34,8 +31,9 @@ void	var_init(t_structs	*g)
 	g->player->rotationspeed = 15 * (M_PI / 180.0);
 	g->ray->fov_angle = 60.0 * (M_PI / 180.0);
 	g->ray->stripwidth = 1;
-	g->ray->rays = malloc(sizeof(double) * g->ray->num_rays);
 	g->ray->num_rays = g->map->width / g->ray->stripwidth;
+	g->ray->rays = malloc(sizeof(double) * g->ray->num_rays);
+	g->cast = malloc(sizeof(t_cast) * g->ray->num_rays);
 	g->mlx->mlx = mlx_init();
 	g->mlx->win = mlx_new_window(g->mlx->mlx, g->map->width, g->map->height, "SUUUU");
 	g->mlx->img = mlx_new_image(g->mlx->mlx, g->map->width, g->map->height);
@@ -56,9 +54,18 @@ int	render(t_structs *g)
 int main(int ac, char **av)
 {
 	t_structs	game;
-	var_init(&game);
-	render(&game);
-	mlx_key_hook(game.mlx->win, key_hook, &game);
-	mlx_loop_hook(game.mlx->mlx, render, &game);
-	mlx_loop(game.mlx->mlx);
+	if (ac == 2)
+	{
+		if (!check_map(av[1], &game))
+			return (1);
+		var_init(&game);
+		game.player->x = (game.map->px + 0.5)* 42;
+		game.player->y = (game.map->py + 0.5)* 42;
+		render(&game);
+		mlx_key_hook(game.mlx->win, key_hook, &game);
+		mlx_loop_hook(game.mlx->mlx, render, &game);
+		mlx_loop(game.mlx->mlx);	
+	}
+	else
+		printf("Error\nToo many arguments\n");
 }
