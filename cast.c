@@ -106,8 +106,8 @@ void horizontale(t_structs *g, int id)
 	g->cast->horizwallhity = g->cast->yintercept;
 	if (g->ray[id].facingup)
 		g->cast->horizwallhity--;
-	while (g->cast->horizwallhitx>= 0 && g->cast->horizwallhitx<= g->map->width 
-			&& g->cast->horizwallhity >= 0 && g->cast->horizwallhity <= g->map->height)
+	while (g->cast->horizwallhitx >= 0 && g->cast->horizwallhitx <= (g->map->column * TILE_SIZE)
+			&& g->cast->horizwallhity >= 0 && g->cast->horizwallhity <= (g->map->row * TILE_SIZE))
 	{
 		if (there_is_wall_at(g->cast->horizwallhitx, g->cast->horizwallhity, g))
 		{
@@ -124,7 +124,6 @@ void horizontale(t_structs *g, int id)
 
 void	verticale(t_structs *g, int id)
 {
-
 	g->cast->xintercept = floor(g->player->x / TILE_SIZE) * TILE_SIZE; 
 	if (g->ray[id].facingright)
 		g->cast->xintercept += TILE_SIZE;
@@ -141,8 +140,7 @@ void	verticale(t_structs *g, int id)
 	g->cast->vertwallhity = g->cast->yintercept;
 	if (g->ray[id].facingleft)
 		g->cast->vertwallhitx--;
-	while (g->cast->vertwallhitx >= 0 && g->cast->vertwallhitx <= g->map->width 
-			&& g->cast->vertwallhity >= 0 && g->cast->vertwallhity <= g->map->height)
+	while (g->cast->vertwallhitx >= 0)
 	{
 		if (there_is_wall_at(g->cast->vertwallhitx, g->cast->vertwallhity, g))
 		{
