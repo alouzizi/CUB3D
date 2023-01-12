@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/11 11:10:35 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/12 07:28:44 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void horizontale(t_structs *g, int id);
 void	verticale(t_structs *g, int id);
 double distancebetweenpoints(t_structs *g , double x, double y);
 void	projectionwall(t_structs *g , int id);
-
+int	there(double x, double y, t_structs *g);
 bool	get_map(char *file, t_map *map);
 bool	ft_check_extention(char *str);
 int	open_file(char *file);

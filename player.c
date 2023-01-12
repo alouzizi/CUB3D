@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 02:19:47 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/12 05:47:47 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/12 07:38:43 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	there_is_wall_at(double x, double y, t_structs *g)
 	// printf("mapgridindexx = %d\n mapgrisindexy = %d\n",mapgridindexx,mapgridindexy );
 	// puts("********1");
 	//puts(g->map->map[mapgridindexy - 1]);
+	//puts("holaaa");
 	if (g->map->map[mapgridindexy][mapgridindexx ] == '0' || g->map->map[mapgridindexy][mapgridindexx] == 'W')
 	{
 			//puts("********2");
@@ -60,6 +61,29 @@ int	there_is_wall_at(double x, double y, t_structs *g)
 		//puts("********3333");
 		return (1);
 	}
+}
+
+
+int	there(double x, double y, t_structs *g)
+{
+	int mapgridindexx;
+	int mapgridindexy;
+
+	if (x < 0 || x > (g->map->column * TILE_SIZE) || y < 0 || y > (g->map->height * TILE_SIZE))
+		return (1);
+	mapgridindexx = floor(x / TILE_SIZE);
+	mapgridindexy = floor(y / TILE_SIZE);
+	if (mapgridindexx >= g->map->column || mapgridindexy >= g->map->row)
+		return (1);
+	// printf("mapgridindexx = %d\n mapgrisindexy = %d\n",mapgridindexx,mapgridindexy );
+	// puts("********1");
+	//puts(g->map->map[mapgridindexy - 1]);
+	puts("holaaa");
+	printf("mapgridindexx = %d\n mapgrisindexy = %d\n",mapgridindexx,mapgridindexy );
+	printf(" map = %c\n",g->map->map[mapgridindexy][mapgridindexx]);
+	if (g->map->map[mapgridindexy][mapgridindexx ] == '1')
+		return (1);
+	return (0);
 }
 
 double distancebetweenpoints(t_structs *g , double x, double y)

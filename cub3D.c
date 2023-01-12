@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/11 09:24:22 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/12 07:32:47 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int main(int ac, char **av)
 		var_init(&game);
 		printf("height = %d\n", game.map->height);
 		printf("width = %d\n", game.map->width);
+		printf("player x = %f player y = %f\n", game.player->x, game.player->y);
 		render(&game);
 		mlx_key_hook(game.mlx->win, key_hook, &game);
 		mlx_loop_hook(game.mlx->mlx, render, &game);
