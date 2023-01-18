@@ -20,7 +20,7 @@ CC = cc
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror 
+FLAGS =   -fsanitize=address -g
 
 LIBFT = ./libft/libft.a
 

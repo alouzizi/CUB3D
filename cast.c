@@ -126,10 +126,10 @@ void	verticale(t_structs *g, int id)
 	if (g->ray[id].facingright)
 		g->cast->xintercept += TILE_SIZE;
 	g->cast->yintercept = g->player->y + (g->cast->xintercept - g->player->x ) * tan(g->cast->rayangle);
-	g->cast->xstep = 42;
+	g->cast->xstep = TILE_SIZE;
 	if (g->ray[id].facingleft)
 		g->cast->xstep *= -1;
-	g->cast->ystep = 42 * tan(g->cast->rayangle);
+	g->cast->ystep = TILE_SIZE * tan(g->cast->rayangle);
 	if (g->ray[id].facingup && g->cast->ystep > 0)
 		g->cast->ystep *= -1;
 	if (g->ray[id].facingdown && g->cast->ystep < 0)

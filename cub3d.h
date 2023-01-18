@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/12 07:28:44 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/18 17:13:41 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #include "libft/libft.h"
 #define PI 3.1415926535
 #define MINIMAP 0.2
-#define TILE_SIZE 42
+#define TILE_SIZE 64
 #define WALL_STRIP_WIDTH 1
 # define NO 1
 # define SO 2
@@ -62,6 +62,21 @@ typedef struct mlx
     int endian;
 
 }t_mlx;
+
+typedef struct texture
+{
+    void *img_so;
+    void *img_no;
+    void *img_we;
+    void *img_ea;
+    char *addr_so;
+    char *addr_no;
+    char *addr_we;
+    char *addr_ea;
+    int bits_per_pixel;
+    int line_length;
+    int endian;
+}t_texture;
 
 typedef struct player
 {
@@ -138,6 +153,7 @@ typedef struct structs
     t_player	*player;
 	t_ray		*ray;
     t_cast		*cast;
+    t_texture	*texture;
 }t_structs;
 
 void	var_init(t_structs	*g);
