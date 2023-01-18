@@ -138,7 +138,8 @@ void	verticale(t_structs *g, int id)
 	g->cast->vertwallhity = g->cast->yintercept;
 	if (g->ray[id].facingleft)
 		g->cast->vertwallhitx--;
-	while (g->cast->vertwallhitx >= 0)
+	while (g->cast->vertwallhitx >= 0
+			&& g->cast->vertwallhity >= 0 )
 	{
 		if (there_is_wall_at(g->cast->vertwallhitx, g->cast->vertwallhity, g))
 		{

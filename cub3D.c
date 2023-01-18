@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/18 17:21:46 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/18 18:53:44 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	texture_init(t_structs *g)
 	g->texture = malloc(sizeof(t_texture));
 	if (!g->texture)
 		exit(1);
-	g->texture->img_no = mlx_xpm_file_to_image(g->mlx->mlx, "W3d_bluewall.xpm", &g->texture->bits_per_pixel, &g->texture->line_length);
+	g->texture->img_no = mlx_xpm_file_to_image(g->mlx->mlx, "W3d_bluewall.xpm", &g->texture->width, &g->texture->height);
 	// g->texture->img_so = mlx_xpm_file_to_image(g->mlx->mlx, g->map->so, NULL, NULL);
 	// g->texture->img_we = mlx_xpm_file_to_image(g->mlx->mlx, g->map->we, NULL, NULL);
 	// g->texture->img_ea = mlx_xpm_file_to_image(g->mlx->mlx, g->map->ea, NULL, NULL);
