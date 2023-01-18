@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/12 07:32:47 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/18 10:03:35 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ int main(int ac, char **av)
 		if (!check_map(av[1], &game))
 			return (1);
 		var_init(&game);
-		printf("height = %d\n", game.map->height);
-		printf("width = %d\n", game.map->width);
-		printf("player x = %f player y = %f\n", game.player->x, game.player->y);
 		render(&game);
+		mlx_hook(game.mlx->win, 2, 0, key_hook, &game);
 		mlx_key_hook(game.mlx->win, key_hook, &game);
 		mlx_loop_hook(game.mlx->mlx, render, &game);
 		mlx_loop(game.mlx->mlx);	

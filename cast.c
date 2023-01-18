@@ -19,7 +19,6 @@ void cast_all_rays(t_structs *g)
 	// g->ray->rays = malloc(sizeof(double) * g->ray->num_rays);
 	i = 0;
 	g->cast->rayangle = g->player->rotationangle - (g->cast->fov_angle / 2);
-	// puts ("koooo");
 	while (i < g->cast->num_rays)
 	{
 		cast(i, g);
@@ -27,7 +26,6 @@ void cast_all_rays(t_structs *g)
 		g->cast->rayangle += g->cast->fov_angle / g->cast->num_rays;
 		i++;
 	}
-	// puts ("yoooo");
 }
 
 void cast(int id, t_structs *g)
