@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/18 19:14:23 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/19 16:52:22 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,21 +82,21 @@ typedef struct texture
 
 typedef struct player
 {
-    double  x;
-    double  y;
-    double  radius;
+    float  x;
+    float  y;
+    float  radius;
     int     turndirection;
     int     walkdirection;
-    double  rotationangle;
-    double  movespeed;
-    double  rotationspeed;
+    float  rotationangle;
+    float  movespeed;
+    float  rotationspeed;
     t_mlx   mlx;
 }t_player;
 
 typedef struct map
 {
-    double  px;
-    double  py;
+    float  px;
+    float  py;
     int     width;
     int     height;
     int     color;
@@ -116,30 +116,30 @@ typedef struct map
 typedef struct cast
 {
 	int		num_rays;
-	double	rayangle;
+	float	rayangle;
 	int		stripwidth; 
-	double	fov_angle;
-	double	wallhitx;
-	double	wallhity;
-	double	distance;
-	double  xintercept;
-	double  yintercept;
-	double  xstep;
-	double  ystep;
-	double	horizwallhitx;
-	double	horizwallhity;
-	double	vertwallhitx;
-	double	vertwallhity;
+	float	fov_angle;
+	float	wallhitx;
+	float	wallhity;
+	float	distance;
+	float  xintercept;
+	float  yintercept;
+	float  xstep;
+	float  ystep;
+	float	horizwallhitx;
+	float	horizwallhity;
+	float	vertwallhitx;
+	float	vertwallhity;
 	int		findhorz;
 	int		findvert;
-	double *rays;
+	float *rays;
 }t_cast;
 
 typedef struct ray
 {
-	double	wallhitx;//
-	double	wallhity;//
-	double	distance;//
+	float	wallhitx;//
+	float	wallhity;//
+	float	distance;//
     int     facingup;//
     int     facingleft;//
     int     facingdown;//
@@ -167,16 +167,16 @@ void	draw_wall(t_structs *g, int x, int y, int color);
 void	dda(t_mlx *mlx,int X0, int Y0, int X1, int Y1);
 int		key_hook(int key, t_structs *g);
 void	update(t_structs *g);
-int		there_is_wall_at(double x, double y, t_structs *g);
+int		there_is_wall_at(float x, float y, t_structs *g);
 void	cast_all_rays(t_structs *g);
 void	cast_ray(t_structs *g);
-double	normalize_angle(double angle);
+float	normalize_angle(float angle);
 void cast(int id, t_structs *g);
 void horizontale(t_structs *g, int id);
 void	verticale(t_structs *g, int id);
-double distancebetweenpoints(t_structs *g , double x, double y);
+float distancebetweenpoints(t_structs *g , float x, float y);
 void	projectionwall(t_structs *g , int id);
-int	there(double x, double y, t_structs *g);
+int	there(float x, float y, t_structs *g);
 bool	get_map(char *file, t_map *map);
 bool	ft_check_extention(char *str);
 int	open_file(char *file);

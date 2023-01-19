@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 02:19:47 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/18 10:03:51 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/19 16:54:04 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,48 +36,40 @@ void	draw_player(t_structs *g)
 	dda(g->mlx, g->player->x, g->player->y, x1, y1);
 }
 
-int	there_is_wall_at(double x, double y, t_structs *g)
+int	there_is_wall_at(float x, float y, t_structs *g)
 {
 	int mapgridindexx;
 	int mapgridindexy;
 
-	if (x < 0 || x > (g->map->column * TILE_SIZE) || y < 0 || y > (g->map->height * TILE_SIZE))
+	if (x <= 0 || x >= (g->map->column * TILE_SIZE) || y <= 0 || y >= (g->map->row * TILE_SIZE))
 		return (1);
 	mapgridindexx = floor(x / TILE_SIZE);
 	mapgridindexy = floor(y / TILE_SIZE);
-	if (mapgridindexx >= g->map->column || mapgridindexy >= g->map->row)
-		return (1);
-	// printf("mapgridindexx = %d\n mapgrisindexy = %d\n",mapgridindexx,mapgridindexy );
-	//puts(g->map->map[mapgridindexy - 1]);
-	if (g->map->map[mapgridindexy][mapgridindexx ] == '0' || g->map->map[mapgridindexy][mapgridindexx] == 'W')
-		return (0);
-	else
-		return (1);
-}
-
-
-int	there(double x, double y, t_structs *g)
-{
-	int mapgridindexx;
-	int mapgridindexy;
-
-	if (x < 0 || x > (g->map->column * TILE_SIZE) || y < 0 || y > (g->map->height * TILE_SIZE))
-		return (1);
-	mapgridindexx = floor(x / TILE_SIZE);
-	mapgridindexy = floor(y / TILE_SIZE);
-	if (mapgridindexx >= g->map->column || mapgridindexy >= g->map->row)
-		return (1);
 	if (g->map->map[mapgridindexy][mapgridindexx ] == '1')
 		return (1);
 	return (0);
 }
 
-double distancebetweenpoints(t_structs *g , double x, double y)
+int	there(float x, float y, t_structs *g)
+{
+	int mapgridindexx;
+	int mapgridindexy;
+
+	if (x <= 0 || x >= (g->map->column * TILE_SIZE) || y <= 0 || y >= (g->map->row * TILE_SIZE))
+		return (1);
+	mapgridindexx = floor(x / TILE_SIZE);
+	mapgridindexy = floor(y / TILE_SIZE);
+	if (g->map->map[mapgridindexy][mapgridindexx ] == '1')
+		return (1);
+	return (0);
+}
+
+float distancebetweenpoints(t_structs *g , float x, float y)
 {
 	return (sqrt(pow(x - g->player->x, 2) + pow(y - g->player->y, 2)));
 }
 
-double normalize_angle(double angle)
+float normalize_angle(float angle)
 {
 	angle = remainder(angle, (2 * M_PI));
 	if (angle < 0)

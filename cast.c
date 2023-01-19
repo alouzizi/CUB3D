@@ -15,8 +15,7 @@
 void cast_all_rays(t_structs *g)
 {
 	int i;
-	
-	// g->ray->rays = malloc(sizeof(double) * g->ray->num_rays);
+
 	i = 0;
 	g->cast->rayangle = g->player->rotationangle - (g->cast->fov_angle / 2);
 	while (i < g->cast->num_rays)
@@ -33,8 +32,8 @@ void cast(int id, t_structs *g)
 	
 	g->cast->rayangle = normalize_angle(g->cast->rayangle);
 	//g->ray->rays[0] = g->ray->rayangle;
-	double horidistance;
-	double vertdistance;
+	float horidistance;
+	float vertdistance;
 	g->ray[id].facingdown = 0;
 	g->ray[id].facingup = 0;
 	g->ray[id].facingright = 0;
@@ -70,18 +69,22 @@ void cast(int id, t_structs *g)
 		vertdistance = INT_MAX;
 	if (horidistance < vertdistance)
 	{
+		g->cast->findhorz = 1;
+		g->cast->findvert = 0;
 		g->ray[id].wallhitx = g->cast->horizwallhitx;
 		g->ray[id].wallhity = g->cast->horizwallhity;
 		g->ray[id].distance = horidistance;
 	}
 	else
 	{
+		g->cast->findvert = 1;
+		g->cast->findhorz = 0;
 		g->ray[id].wallhitx = g->cast->vertwallhitx; 
 		g->ray[id].wallhity = g->cast->vertwallhity;
 		g->ray[id].distance = vertdistance;
 	}
 	projectionwall(g, id);
-	//dda(g->mlx, g->player->x, g->player->y, g->ray[id].wallhitx, g->ray[id].wallhity);
+	// dda(g->mlx, g->player->x, g->player->y, g->ray[id].wallhitx, g->ray[id].wallhity);
 }
 
 
@@ -103,9 +106,8 @@ void horizontale(t_structs *g, int id)
 	g->cast->horizwallhitx= g->cast->xintercept;
 	g->cast->horizwallhity = g->cast->yintercept;
 	if (g->ray[id].facingup)
-		g->cast->horizwallhity--;
-	while (g->cast->horizwallhitx >= 0 && g->cast->horizwallhitx <= (g->map->column * TILE_SIZE)
-			&& g->cast->horizwallhity >= 0 && g->cast->horizwallhity <= (g->map->row * TILE_SIZE))
+		g->cast->horizwallhity -= 0.1; 
+	while (1)
 	{
 		if (there_is_wall_at(g->cast->horizwallhitx, g->cast->horizwallhity, g))
 		{
@@ -137,9 +139,8 @@ void	verticale(t_structs *g, int id)
 	g->cast->vertwallhitx = g->cast->xintercept;
 	g->cast->vertwallhity = g->cast->yintercept;
 	if (g->ray[id].facingleft)
-		g->cast->vertwallhitx--;
-	while (g->cast->vertwallhitx >= 0
-			&& g->cast->vertwallhity >= 0 )
+		g->cast->vertwallhitx -= 0.1;
+	while (1)
 	{
 		if (there_is_wall_at(g->cast->vertwallhitx, g->cast->vertwallhity, g))
 		{
