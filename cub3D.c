@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/19 20:02:15 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:02:04 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,18 @@ void	texture_init(t_structs *g)
 	g->texture = malloc(sizeof(t_texture));
 	if (!g->texture)
 		exit(1);
-	g->texture->img_no = mlx_xpm_file_to_image(g->mlx->mlx, "Wall2.xpm", &g->texture->width, &g->texture->height);
-	// g->texture->img_so = mlx_xpm_file_to_image(g->mlx->mlx, g->map->so, NULL, NULL);
-	// g->texture->img_we = mlx_xpm_file_to_image(g->mlx->mlx, g->map->we, NULL, NULL);
-	// g->texture->img_ea = mlx_xpm_file_to_image(g->mlx->mlx, g->map->ea, NULL, NULL);
+	g->texture->img_no = mlx_xpm_file_to_image(g->mlx->mlx, g->map->no, &g->texture->width, &g->texture->height);
+	g->texture->img_so = mlx_xpm_file_to_image(g->mlx->mlx, g->map->so, &g->texture->width, &g->texture->height);
+	g->texture->img_we = mlx_xpm_file_to_image(g->mlx->mlx, g->map->we, &g->texture->width, &g->texture->height);
+	g->texture->img_ea = mlx_xpm_file_to_image(g->mlx->mlx, g->map->ea, &g->texture->width, &g->texture->height);
 	g->texture->addr_no = mlx_get_data_addr(g->texture->img_no, &g->texture->bits_per_pixel, &g->texture->line_length,
 					&g->texture->endian);
-	// g->texture->addr_so = mlx_get_data_addr(g->texture->img_so, &g->texture->bits_per_pixel, &g->texture->line_length,
-					// &g->texture->endian);
-	// g->texture->addr_we = mlx_get_data_addr(g->texture->img_we, &g->texture->bits_per_pixel, &g->texture->line_length,
-					// &g->texture->endian);
-	// g->texture->addr_ea = mlx_get_data_addr(g->texture->img_ea, &g->texture->bits_per_pixel, &g->texture->line_length,
-					// &g->texture->endian);
+	g->texture->addr_so = mlx_get_data_addr(g->texture->img_so, &g->texture->bits_per_pixel, &g->texture->line_length,
+					&g->texture->endian);
+	g->texture->addr_we = mlx_get_data_addr(g->texture->img_we, &g->texture->bits_per_pixel, &g->texture->line_length,
+					&g->texture->endian);
+	g->texture->addr_ea = mlx_get_data_addr(g->texture->img_ea, &g->texture->bits_per_pixel, &g->texture->line_length,
+					&g->texture->endian);
 }
 
 int main(int ac, char **av)
@@ -88,7 +88,6 @@ int main(int ac, char **av)
 			return (1);
 		var_init(&game);
 		texture_init(&game);
-
 		render(&game);
 		mlx_hook(game.mlx->win, 2, 0, key_hook, &game);
 		mlx_key_hook(game.mlx->win, key_hook, &game);

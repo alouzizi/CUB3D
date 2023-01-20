@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 05:34:04 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/19 19:45:10 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:13:23 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void draw_cellin_floor(t_structs *g, int x, double top, double bottom)
 	y = 0;
 	while(y < top)
 	{
-		my_mlx_pixel_put(g->mlx, x, y, 0x4287f5);
+		my_mlx_pixel_put(g->mlx, x, y, 0x525252);
 		y++;  
 	}
 	y = bottom;
 	while(y <= HEIGHT)
 	{
-		my_mlx_pixel_put(g->mlx, x, y, 0xf58742);
+		my_mlx_pixel_put(g->mlx, x, y, 0x3B3B3B);
 		y++;  
 	}
 }

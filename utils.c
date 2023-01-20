@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 04:06:01 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/19 16:50:19 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:24:21 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int abs(int n) { return ((n > 0) ? n : (n * (-1))); }
 void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color)
 {
 	char	*dst;
-	if ((x > 0 && x < WIDTH) && (y > 0 && y < HEIGHT))
+	if ((x >= 0 && x <= WIDTH) && (y >= 0 && y <= HEIGHT))
 	{
 	dst = mlx->addr + (y * mlx->line_length + x * (mlx->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;

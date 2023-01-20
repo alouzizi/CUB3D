@@ -106,7 +106,7 @@ void horizontale(t_structs *g, int id)
 	g->cast->horizwallhitx= g->cast->xintercept;
 	g->cast->horizwallhity = g->cast->yintercept;
 	if (g->ray[id].facingup)
-		g->cast->horizwallhity -= 0.1; 
+		g->cast->horizwallhity--; 
 	while (1)
 	{
 		if (there_is_wall_at(g->cast->horizwallhitx, g->cast->horizwallhity, g))
@@ -139,7 +139,7 @@ void	verticale(t_structs *g, int id)
 	g->cast->vertwallhitx = g->cast->xintercept;
 	g->cast->vertwallhity = g->cast->yintercept;
 	if (g->ray[id].facingleft)
-		g->cast->vertwallhitx -= 0.1;
+		g->cast->vertwallhitx --;
 	while (1)
 	{
 		if (there_is_wall_at(g->cast->vertwallhitx, g->cast->vertwallhity, g))
