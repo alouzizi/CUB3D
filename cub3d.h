@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/21 13:16:09 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/21 16:55:07 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct mlx
 	void	*img;
 	char	*addr;
 	int		bpp;
-	int		line_length;
+	int		line_len;
 	int		endian;
 
 }t_mlx;
@@ -57,7 +57,7 @@ typedef struct texture
 	char	*addr_we;
 	char	*addr_ea;
 	int		bpp;
-	int		line_length;
+	int		line_len;
 	int		endian;
 	int		width;
 	int		height;
@@ -141,22 +141,19 @@ typedef struct structs
 
 void	var_init(t_structs *g);
 int		render(t_structs *g);
-void	draw_map(t_structs *g);
-void	draw_player(t_structs *g);
 void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
-void	draw_wall(t_structs *g, int x, int y, int color);
-void	dda(t_mlx *mlx, int X0, int Y0, int X1, int Y1);
 int		key_hook(int key, t_structs *g);
 void	update(t_structs *g);
 int		there_is_wall_at(float x, float y, t_structs *g);
 void	cast_all_rays(t_structs *g);
 float	normalize_angle(float angle);
+void	cast_init(t_structs *g);
 void	cast(int id, t_structs *g);
-void	horizontale(t_structs *g, int id);
-void	verticale(t_structs *g, int id);
+void	horizontale(t_structs *g);
+void	verticale(t_structs *g);
+void	while_wall(t_structs *g, float xstep, float ystep, int i);
 float	distancebetweenpoints(t_structs *g, float x, float y);
 void	projectionwall(t_structs *g, int id);
-int		there(float x, float y, t_structs *g);
 bool	get_map(char *file, t_map *map);
 bool	ft_check_extention(char *str);
 int		open_file(char *file);

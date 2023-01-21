@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:57:14 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/21 13:16:09 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:25:08 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,51 @@ void	draw_cellin_floor(t_structs *g, int x, double top, double bottom)
 	}
 }
 
-int	offsetx(t_structs *g, int id)
+int	offsetx(t_structs *g)
 {
 	int	offsetx;
 
 	if (g->cast->findvert)
-		offsetx = (int)g->ray[id].wallhity % TILE_SIZE;
+		offsetx = (int)g->ray->wallhity % TILE_SIZE;
 	else
-		offsetx = (int)g->ray[id].wallhitx % TILE_SIZE;
+		offsetx = (int)g->ray->wallhitx % TILE_SIZE;
 	return (offsetx);
+}
+
+char	*witch_texture(t_structs *g)
+{
+	if (g->cast->findhorz)
+	{
+		if (g->ray->facingup)
+			return (g->texture->addr_so);
+		if (g->ray->facingdown)
+			return (g->texture->addr_no);
+	}
+	else
+	{
+		if (g->ray->facingleft)
+			return (g->texture->addr_we);
+		if (g->ray->facingright)
+			return (g->texture->addr_ea);
+	}
+	return (NULL);
+}
+
+void	texture(t_structs *g, int x, double y, double wallstripheight)
+{
+	char	*dst;
+	char	*texture;
+	int		offsety;
+
+	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+	{
+		offsety = y + (wallstripheight / 2) - (HEIGHT / 2);
+		offsety *= (double)(g->texture->height / wallstripheight);
+		dst = g->mlx->addr + ((int)y * g->mlx->line_len + x * g->mlx->bpp / 8);
+		texture = witch_texture(g);
+		*(unsigned int *)dst = *(unsigned int *)&texture[(offsety
+				* g->texture->line_len) + offsetx(g) * (g->texture->bpp / 8)];
+	}
 }
 
 void	projectionwall(t_structs *g, int id)
@@ -48,25 +84,17 @@ void	projectionwall(t_structs *g, int id)
 	double	wallstripheight;
 	double	top;
 	double	bottom;
-	char	*dst;
-	int		offsety;
 
-	correctraydistance = g->ray[id].distance
+	correctraydistance = g->ray->distance
 		* cos(g->cast->rayangle - g->player->rotationangle);
 	distanceprojectplane = (WIDTH / 2) / tan(g->cast->fov_angle / 2) * 0.8;
 	wallstripheight = (TILE_SIZE / correctraydistance) * distanceprojectplane;
 	top = (HEIGHT / 2) - (wallstripheight / 2);
 	bottom = wallstripheight + top;
-	draw_cellin_floor(g, id, top, bottom);;
-	while(top <= bottom) 
+	draw_cellin_floor(g, id, top, bottom);
+	while (top <= bottom)
 	{
-		if (id >= 0 && id < WIDTH && top >= 0 && top < HEIGHT)
-		{
-			offsety = top + (wallstripheight / 2) - (HEIGHT / 2) ;
-			offsety *= (double)(g->texture->height / wallstripheight);
-			dst = g->mlx->addr + ((int)top * g->mlx->line_length + id * (g->mlx->bpp / 8));
-			*(unsigned int*)dst = *(unsigned int*)&g->texture->addr_we[(offsety * g->texture->line_length) + offsetx(g,id) * (g->texture->bpp / 8)];
-		}
-		top++; 
+		texture(g, id, top, wallstripheight);
+		top++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:09:37 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/20 17:12:04 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/21 18:27:13 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,124 +26,88 @@ void	cast_all_rays(t_structs *g)
 	}
 }
 
-void	cast(int id, t_structs *g)
+void	get_distance(t_structs *g, float horidistance, float vertdistance)
 {
-	float	horidistance;
-	float	vertdistance;
-
-	g->cast->rayangle = normalize_angle(g->cast->rayangle);
-	g->ray[id].facingdown = 0;
-	g->ray[id].facingup = 0;
-	g->ray[id].facingright = 0;
-	g->ray[id].facingleft = 0;
-	g->cast->wallhitx = 0;
-	g->cast->wallhity = 0;
-	g->cast->distance = 0;
-	g->cast->xintercept = 0;
-	g->cast->yintercept = 0;
-	g->cast->xstep = 0;
-	g->cast->ystep = 0;
-	g->cast->findhorz = 0;
-	g->cast->findvert = 0;
-	if (g->cast->rayangle > 0 && g->cast->rayangle < M_PI)
-		g->ray[id].facingdown = 1;
-	else
-		g->ray[id].facingup = 1;
-	if (g->cast->rayangle < 0.5 * M_PI || g->cast->rayangle > 1.5 * M_PI)
-		g->ray[id].facingright = 1;
-	else
-		g->ray[id].facingleft = 1;
-	horizontale(g, id);
-	verticale(g, id);
-	if (g->cast->findhorz)
-		horidistance = distancebetweenpoints(g, g->cast->horizwallhitx, g->cast->horizwallhity);
-	else
-		horidistance = INT_MAX;
-	if (g->cast->findvert)
-		vertdistance = distancebetweenpoints(g, g->cast->vertwallhitx, g->cast->vertwallhity);
-	else
-		vertdistance = INT_MAX;
 	if (horidistance < vertdistance)
 	{
 		g->cast->findhorz = 1;
 		g->cast->findvert = 0;
-		g->ray[id].wallhitx = g->cast->horizwallhitx;
-		g->ray[id].wallhity = g->cast->horizwallhity;
-		g->ray[id].distance = horidistance;
+		g->ray->wallhitx = g->cast->horizwallhitx;
+		g->ray->wallhity = g->cast->horizwallhity;
+		g->ray->distance = horidistance;
 	}
 	else
 	{
 		g->cast->findvert = 1;
 		g->cast->findhorz = 0;
-		g->ray[id].wallhitx = g->cast->vertwallhitx;
-		g->ray[id].wallhity = g->cast->vertwallhity;
-		g->ray[id].distance = vertdistance;
+		g->ray->wallhitx = g->cast->vertwallhitx;
+		g->ray->wallhity = g->cast->vertwallhity;
+		g->ray->distance = vertdistance;
 	}
+}
+
+void	cast(int id, t_structs *g)
+{
+	float	horidistance;
+	float	vertdistance;
+
+	cast_init(g);
+	horizontale(g);
+	verticale(g);
+	if (g->cast->findhorz)
+		horidistance = distancebetweenpoints(g, g->cast->horizwallhitx,
+				g->cast->horizwallhity);
+	else
+		horidistance = INT_MAX;
+	if (g->cast->findvert)
+		vertdistance = distancebetweenpoints(g, g->cast->vertwallhitx,
+				g->cast->vertwallhity);
+	else
+		vertdistance = INT_MAX;
+	get_distance(g, horidistance, vertdistance);
 	projectionwall(g, id);
 }
 
-void	horizontale(t_structs *g, int id)
+void	horizontale(t_structs *g)
 {
 	g->cast->yintercept = floor(g->player->y / TILE_SIZE) * TILE_SIZE;
-	if (g->ray[id].facingdown)
+	if (g->ray->facingdown)
 		g->cast->yintercept += TILE_SIZE;
-	g->cast->xintercept = g->player->x + (g->cast->yintercept - g->player->y) / tan(g->cast->rayangle);
+	g->cast->xintercept = g->player->x
+		+ (g->cast->yintercept - g->player->y) / tan(g->cast->rayangle);
 	g->cast->ystep = TILE_SIZE;
-	if (g->ray[id].facingup)
+	if (g->ray->facingup)
 		g->cast->ystep *= -1;
 	g->cast->xstep = TILE_SIZE / tan(g->cast->rayangle);
-	if (g->ray[id].facingleft && g->cast->xstep > 0)
+	if (g->ray->facingleft && g->cast->xstep > 0)
 		g->cast->xstep *= -1;
-	if (g->ray[id].facingright && g->cast->xstep < 0)
+	if (g->ray->facingright && g->cast->xstep < 0)
 		g->cast->xstep *= -1;
 	g->cast->horizwallhitx = g->cast->xintercept;
 	g->cast->horizwallhity = g->cast->yintercept;
-	if (g->ray[id].facingup)
-		g->cast->horizwallhity--;
-	while (1)
-	{
-		if (there_is_wall_at(g->cast->horizwallhitx, g->cast->horizwallhity, g))
-		{
-			g->cast->findhorz = 1;
-			return ;
-		}
-		else
-		{
-			g->cast->horizwallhitx += g->cast->xstep;
-			g->cast->horizwallhity += g->cast->ystep;
-		}
-	}
+	if (g->ray->facingup)
+		g->cast->horizwallhity -= 0.01;
+	while_wall(g, g->cast->horizwallhitx, g->cast->horizwallhity, 1);
 }
 
-void	verticale(t_structs *g, int id)
+void	verticale(t_structs *g)
 {
 	g->cast->xintercept = floor(g->player->x / TILE_SIZE) * TILE_SIZE;
-	if (g->ray[id].facingright)
+	if (g->ray->facingright)
 		g->cast->xintercept += TILE_SIZE;
-	g->cast->yintercept = g->player->y + (g->cast->xintercept - g->player->x) * tan(g->cast->rayangle);
+	g->cast->yintercept = g->player->y
+		+ (g->cast->xintercept - g->player->x) * tan(g->cast->rayangle);
 	g->cast->xstep = TILE_SIZE;
-	if (g->ray[id].facingleft)
+	if (g->ray->facingleft)
 		g->cast->xstep *= -1;
 	g->cast->ystep = TILE_SIZE * tan(g->cast->rayangle);
-	if (g->ray[id].facingup && g->cast->ystep > 0)
+	if (g->ray->facingup && g->cast->ystep > 0)
 		g->cast->ystep *= -1;
-	if (g->ray[id].facingdown && g->cast->ystep < 0)
+	if (g->ray->facingdown && g->cast->ystep < 0)
 		g->cast->ystep *= -1;
 	g->cast->vertwallhitx = g->cast->xintercept;
 	g->cast->vertwallhity = g->cast->yintercept;
-	if (g->ray[id].facingleft)
-		g->cast->vertwallhitx --;
-	while (1)
-	{
-		if (there_is_wall_at(g->cast->vertwallhitx, g->cast->vertwallhity, g))
-		{
-			g->cast->findvert = 1;
-			return ;
-		}
-		else
-		{
-			g->cast->vertwallhitx += g->cast->xstep;
-			g->cast->vertwallhity += g->cast->ystep;
-		}
-	}
+	if (g->ray->facingleft)
+		g->cast->vertwallhitx -= 0.01;
+	while_wall(g, g->cast->vertwallhitx, g->cast->vertwallhity, 0);
 }

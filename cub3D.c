@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/21 13:37:30 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/21 17:17:26 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	var_init(t_structs	*g)
 	g->player = malloc(sizeof(t_player));
 	g->mlx = malloc(sizeof(t_mlx));
 	g->cast = malloc(sizeof(t_cast));
-	if (!g->player || !g->mlx || !g->cast)
+	g->ray = malloc(sizeof(t_ray));
+	if (!g->player || !g->mlx || !g->cast || !g->ray)
 		exit(1);
 	g->player->x = (g->map->px + 0.5) * TILE_SIZE;
 	g->player->y = (g->map->py + 0.5) * TILE_SIZE;
@@ -30,22 +31,19 @@ void	var_init(t_structs	*g)
 	g->cast->fov_angle = 60.0 * (M_PI / 180.0);
 	g->cast->stripwidth = 1;
 	g->cast->num_rays = WIDTH / g->cast->stripwidth;
-	g->ray = malloc(sizeof(t_ray) * (g->cast->num_rays + 1));
-	if (!g->ray)
-		exit(1);
 	g->mlx->mlx = mlx_init();
 	g->mlx->win = mlx_new_window(g->mlx->mlx, WIDTH,
 			HEIGHT, "SUPER CUB3D");
 	g->mlx->img = mlx_new_image(g->mlx->mlx, WIDTH, HEIGHT);
 	g->mlx->addr = mlx_get_data_addr(g->mlx->img, &g->mlx->bpp,
-			&g->mlx->line_length, &g->mlx->endian);
+			&g->mlx->line_len, &g->mlx->endian);
 }
 
 int	render(t_structs *g)
 {
 	g->mlx->img = mlx_new_image(g->mlx->mlx, WIDTH, HEIGHT);
 	g->mlx->addr = mlx_get_data_addr(g->mlx->img, &g->mlx->bpp,
-			&g->mlx->line_length, &g->mlx->endian);
+			&g->mlx->line_len, &g->mlx->endian);
 	cast_all_rays(g);
 	mlx_put_image_to_window(g->mlx->mlx, g->mlx->win, g->mlx->img, 0, 0);
 	mlx_destroy_image(g->mlx->mlx, g->mlx->img);
@@ -66,13 +64,13 @@ void	texture_init(t_structs *g)
 	g->texture->img_ea = mlx_xpm_file_to_image(g->mlx->mlx, g->map->ea,
 			&g->texture->width, &g->texture->height);
 	g->texture->addr_no = mlx_get_data_addr(g->texture->img_no,
-			&g->texture->bpp, &g->texture->line_length, &g->texture->endian);
+			&g->texture->bpp, &g->texture->line_len, &g->texture->endian);
 	g->texture->addr_so = mlx_get_data_addr(g->texture->img_so,
-			&g->texture->bpp, &g->texture->line_length, &g->texture->endian);
+			&g->texture->bpp, &g->texture->line_len, &g->texture->endian);
 	g->texture->addr_we = mlx_get_data_addr(g->texture->img_we,
-			&g->texture->bpp, &g->texture->line_length, &g->texture->endian);
+			&g->texture->bpp, &g->texture->line_len, &g->texture->endian);
 	g->texture->addr_ea = mlx_get_data_addr(g->texture->img_ea,
-			&g->texture->bpp, &g->texture->line_length, &g->texture->endian);
+			&g->texture->bpp, &g->texture->line_len, &g->texture->endian);
 }
 
 int	main(int ac, char **av)
