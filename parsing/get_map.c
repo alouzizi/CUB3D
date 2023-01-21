@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 23:43:51 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/11 01:12:00 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:45:39 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,3 @@ bool	is_empty(char **line, int i)
 	}
 	return (true);
 }
-

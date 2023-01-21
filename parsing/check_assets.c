@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 23:43:32 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/11 02:01:49 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/20 16:45:28 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ bool	assets_check(t_map *map)
 	return (true);
 }
 
-
 bool	range_check(int num)
 {
 	if (num < 0 || num > 255)
@@ -90,4 +89,3 @@ bool	if_valid(int *tab)
 	}
 	return (true);
 }
-

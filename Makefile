@@ -20,7 +20,7 @@ CC = cc
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS =    -g
+FLAGS = -Wall -Wextra -Werror
 
 LIBFT = ./libft/libft.a
 
