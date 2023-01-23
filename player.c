@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 02:19:47 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/21 16:41:49 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/23 20:33:15 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	there_is_wall_at(float x, float y, t_structs *g)
 	int	mapgridindexx;
 	int	mapgridindexy;
 
-	if (x <= 0 || x >= (g->map->column * TILE_SIZE)
-		|| y <= 0 || y >= (g->map->row * TILE_SIZE))
+	if (x < 0 || x >= (g->map->column * TILE_SIZE)
+		|| y < 0 || y >= (g->map->row * TILE_SIZE))
 		return (1);
 	mapgridindexx = floor(x / TILE_SIZE);
 	mapgridindexy = floor(y / TILE_SIZE);

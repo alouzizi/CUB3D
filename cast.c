@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:09:37 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/21 18:27:13 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/23 20:31:51 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	horizontale(t_structs *g)
 	g->cast->horizwallhitx = g->cast->xintercept;
 	g->cast->horizwallhity = g->cast->yintercept;
 	if (g->ray->facingup)
-		g->cast->horizwallhity -= 0.01;
+		g->cast->horizwallhity -= 0.001;
 	while_wall(g, g->cast->horizwallhitx, g->cast->horizwallhity, 1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/23 17:22:30 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/23 20:27:12 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include "libft/libft.h"
 # define PI 3.1415926535
 # define MINIMAP 0.2
-# define TILE_SIZE 64
+# define TILE_SIZE 63
 # define WALL_STRIP_WIDTH 1
 # define NO 1
 # define SO 2
