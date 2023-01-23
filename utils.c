@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 04:06:01 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/21 16:53:24 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:59:31 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,28 @@ void	while_wall(t_structs *g, float wallhitx, float wallhity, int i)
 			wallhity += g->cast->ystep;
 		}
 	}
+}
+
+float	get_angle(char c)
+{
+	if (c == 'W')
+		return (M_PI);
+	else if (c == 'E')
+		return (0);
+	else if (c == 'N')
+		return ((3 * M_PI) / 2);
+	else if (c == 'S')
+		return (M_PI / 2);
+	return (0);
+}
+
+int	convert_rgb_to_dec(int r, int g, int b, int a)
+{
+	t_color	conver;
+
+	conver.rgb[2] = (unsigned char)r;
+	conver.rgb[1] = (unsigned char)g;
+	conver.rgb[0] = (unsigned char)b;
+	conver.rgb[3] = (unsigned char)a;
+	return (conver.color);
 }

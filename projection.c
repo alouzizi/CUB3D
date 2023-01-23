@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:57:14 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/21 18:25:08 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/23 17:33:49 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ void	draw_cellin_floor(t_structs *g, int x, double top, double bottom)
 	y = 0;
 	while (y < top)
 	{
-		my_mlx_pixel_put(g->mlx, x, y, 0x750000);
+		my_mlx_pixel_put(g->mlx, x, y, g->texture->color_c);
 		y++;
 	}
 	y = bottom;
 	while (y <= HEIGHT)
 	{
-		my_mlx_pixel_put(g->mlx, x, y, 0x202020);
+		my_mlx_pixel_put(g->mlx, x, y, g->texture->color_f);
 		y++;
 	}
 }
@@ -46,9 +46,9 @@ char	*witch_texture(t_structs *g)
 	if (g->cast->findhorz)
 	{
 		if (g->ray->facingup)
-			return (g->texture->addr_so);
-		if (g->ray->facingdown)
 			return (g->texture->addr_no);
+		if (g->ray->facingdown)
+			return (g->texture->addr_so);
 	}
 	else
 	{

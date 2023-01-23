@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 23:43:51 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/20 16:45:39 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/23 17:01:23 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,17 @@ bool	ft_check_extention(char *str)
 	if (str[i -1] != 'b' || str[i -2] != 'u'
 		|| str[i -3] != 'c' || str[i -4] != '.')
 	{
-		printf("File extension must be '.cub'\n");
+		ft_putstr_fd("File extension must be '.cub'\n", 2);
+		return (false);
+	}
+	return (true);
+}
+
+bool	is_empty(char **line, int i)
+{
+	if (*line && i < 6 && *line[0] == '\n')
+	{
+		free (*line);
 		return (false);
 	}
 	return (true);
@@ -66,12 +76,9 @@ int	open_file(char *file)
 	return (fd);
 }
 
-bool	is_empty(char **line, int i)
+char	*trim_n(char *str)
 {
-	if (*line && i < 6 && *line[0] == '\n')
-	{
-		free (*line);
-		return (false);
-	}
-	return (true);
+	if (str[ft_strlen(str) - 1] == '\n')
+		return (ft_substr(str, 0, ft_strlen(str) - 1));
+	return (ft_strdup(str));
 }

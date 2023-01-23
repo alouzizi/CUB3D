@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 23:43:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/11 01:58:09 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/23 17:01:17 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,28 @@ bool	check_p_map(t_map *map)
 	return (1);
 }
 
+void	check_new_line(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != NULL)
+	{
+		if (str[i][0] == '\n' && (str[i + 1] && str[i + 1][0] == '1'))
+		{
+			ft_putstr_fd("Error\nfound a new line in the map\n", 2);
+			exit(0);
+		}
+		i++;
+	}
+}
+
 bool	init_map(t_map *map)
 {
 	int	i;
 
 	i = 0;
+	check_new_line(map->o_map);
 	map->row = tab_len(map->o_map + 6);
 	map->column = max_width(map->o_map + 6);
 	map->map = (char **)malloc(sizeof(char *) * (map->row + 1));
@@ -83,11 +100,4 @@ int	get_strlen(char *s)
 	while (str[i] && str[i] != '\n')
 		i++;
 	return (i);
-}
-
-char	*trim_n(char *str)
-{
-	if (str[ft_strlen(str) - 1] == '\n')
-		return (ft_substr(str, 0, ft_strlen(str) - 1));
-	return (ft_strdup(str));
 }

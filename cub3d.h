@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/21 16:55:07 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/23 17:22:30 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct texture
 	int		endian;
 	int		width;
 	int		height;
+	int		color_c;
+	int		color_f;
 }t_texture;
 
 typedef struct player
@@ -139,6 +141,13 @@ typedef struct structs
 	t_texture	*texture;
 }t_structs;
 
+typedef union u_color
+{
+	unsigned char	rgb[4];
+	int				color;
+}			t_color;
+
+float	get_angle(char c);
 void	var_init(t_structs *g);
 int		render(t_structs *g);
 void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
@@ -184,4 +193,5 @@ void	free_tab(char ***tab);
 int		max_width(char **s);
 char	*cut(char *str, char **dist);
 char	*get_next_line(int fd);
+int		convert_rgb_to_dec(int r, int g, int b, int a);
 #endif

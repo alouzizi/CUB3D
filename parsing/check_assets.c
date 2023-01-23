@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/10 23:43:32 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/20 16:45:28 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/01/23 16:57:09 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	parsing_assets(t_map *map)
 		type = get_type(map->o_map[i]);
 		if (!type)
 		{
-			printf("assests not valid\n");
+			ft_putstr_fd("Error:\nmap non valid\n", 2);
 			return (false);
 		}
 		if (type == F || type == C)
@@ -58,7 +58,7 @@ bool	assets_check(t_map *map)
 	i = 0;
 	if (tab_len(map->o_map) < 9)
 	{
-		printf("Error:\nmap non valid\n");
+		ft_putstr_fd("Error:\nmap non valid\n", 2);
 		return (false);
 	}
 	if (!parsing_assets(map))

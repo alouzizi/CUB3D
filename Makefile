@@ -4,7 +4,7 @@ HEADER = cub3d.h
 SRCS = map.c \
 		player.c \
 		utils.c \
-		cub3D.c \
+		cub3D.c  \
 		cast.c \
 		projection.c \
 		get_next_line.c \
@@ -15,6 +15,7 @@ SRCS = map.c \
 		parsing/map_utils2.c \
 		parsing/player_check.c \
 		parsing/utils.c \
+
 
 CC = cc
 
