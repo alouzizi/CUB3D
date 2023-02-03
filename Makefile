@@ -1,8 +1,7 @@
 NAME = cub3d
 HEADER = cub3d.h
 
-SRCS = map.c \
-		player.c \
+SRCS =	player.c \
 		utils.c \
 		cub3D.c  \
 		cast.c \
@@ -15,13 +14,14 @@ SRCS = map.c \
 		parsing/map_utils2.c \
 		parsing/player_check.c \
 		parsing/utils.c \
-
+		parsing/parsing.c \
+		parsing/parsing_utils.c
 
 CC = cc
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 LIBFT = ./libft/libft.a
 

@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/23 17:23:25 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/03 06:11:25 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,18 @@ int	render(t_structs *g)
 void	texture_init(t_structs *g)
 {
 	g->texture = malloc(sizeof(t_texture));
+	puts("-------> Texture Init <-------");
+	printf("NO: %s, SO: %s, WE: %s, EA: %s\n", g->map->no , g->map->so,
+			g->map->we, g->map->ea);
 	if (!g->texture)
 		exit(1);
-	g->texture->img_no = mlx_xpm_file_to_image(g->mlx->mlx, g->map->no,
+	g->texture->img_no = mlx_xpm_file_to_image(g->mlx->mlx, g->map->no + 1,
 			&g->texture->width, &g->texture->height);
-	g->texture->img_so = mlx_xpm_file_to_image(g->mlx->mlx, g->map->so,
+	g->texture->img_so = mlx_xpm_file_to_image(g->mlx->mlx, g->map->so + 1,
 			&g->texture->width, &g->texture->height);
-	g->texture->img_we = mlx_xpm_file_to_image(g->mlx->mlx, g->map->we,
+	g->texture->img_we = mlx_xpm_file_to_image(g->mlx->mlx, g->map->we + 1,
 			&g->texture->width, &g->texture->height);
-	g->texture->img_ea = mlx_xpm_file_to_image(g->mlx->mlx, g->map->ea,
+	g->texture->img_ea = mlx_xpm_file_to_image(g->mlx->mlx, g->map->ea + 1,
 			&g->texture->width, &g->texture->height);
 	if (!g->texture->img_no || !g->texture->img_so || !g->texture->img_we
 		|| !g->texture->img_ea)
@@ -94,8 +97,18 @@ int	main(int ac, char **av)
 
 	if (ac == 2)
 	{
-		if (!check_map(av[1], &game))
+		// if (!check_map(av[1], &game))
+		// 	return (1);
+		if (!Check_map(&game, av[1]))
 			return (1);
+		//int i = 0;
+		// while (i < game.map->row)
+		// {
+			
+		// 	printf("%s\n", game.map->map[i]);
+		// 	printf("%zu\n", ft_strlen(game.map->map[i]));
+		// 	i++;
+		// }
 		var_init(&game);
 		texture_init(&game);
 		get_color_cf(&game);

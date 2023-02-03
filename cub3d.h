@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/23 20:27:12 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/03 05:18:02 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ typedef struct map
 	int		c[3];
 	char	**map;
 	char	**o_map;
+	int		ff;
+	int		cc;
 }t_map;
 
 typedef struct cast
@@ -194,4 +196,10 @@ int		max_width(char **s);
 char	*cut(char *str, char **dist);
 char	*get_next_line(int fd);
 int		convert_rgb_to_dec(int r, int g, int b, int a);
+int Check_map(t_structs *g, char *file);
+//<----------------- paesing----------------->
+int	get_texture(char *line, t_map *map, int i);
+void Get_data(int fd, t_map *map);
+int Get_color(char *line, t_map *map, int i);\
+void Get_map(int fd, t_map *map, char *line);
 #endif
