@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 17:09:37 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/23 20:31:51 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 04:37:24 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,6 @@ void	verticale(t_structs *g)
 	g->cast->vertwallhitx = g->cast->xintercept;
 	g->cast->vertwallhity = g->cast->yintercept;
 	if (g->ray->facingleft)
-		g->cast->vertwallhitx -= 0.01;
+		g->cast->vertwallhitx -= 0.9;
 	while_wall(g, g->cast->vertwallhitx, g->cast->vertwallhity, 0);
 }

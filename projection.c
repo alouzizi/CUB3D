@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/20 16:57:14 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 01:47:21 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 04:12:26 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	texture(t_structs *g, int x, double y, double wallstripheight)
 	char	*texture;
 	int		offsety;
 
-	if (x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+	if (x >= 0 && x < WIDTH && y >= 0 && y <= HEIGHT)
 	{
 		offsety = y + (wallstripheight / 2) - (HEIGHT / 2);
 		offsety *= (double)(g->texture->height / wallstripheight);

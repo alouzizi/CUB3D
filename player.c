@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 02:19:47 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/23 20:33:15 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 04:05:42 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	there_is_wall_at(float x, float y, t_structs *g)
 	int	mapgridindexx;
 	int	mapgridindexy;
 
-	if (x < 0 || x >= (g->map->column * TILE_SIZE)
-		|| y < 0 || y >= (g->map->row * TILE_SIZE))
+	if (x <= 0 || x >= (g->map->column * TILE_SIZE)
+		|| y <= 0 || y >= (g->map->row * TILE_SIZE))
 		return (1);
 	mapgridindexx = floor(x / TILE_SIZE);
 	mapgridindexy = floor(y / TILE_SIZE);
@@ -65,6 +65,11 @@ void	update(t_structs *g)
 	double	x;
 	double	y;
 
+	double newx;
+	double newy;
+
+	newx = 0;
+	newy = 0;
 	step = g->player->walkdirection * g->player->movespeed;
 	x = round(g->player->x + cos(g->player->rotationangle) * step);
 	y = round(g->player->y + sin(g->player->rotationangle) * step);

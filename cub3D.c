@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 02:58:51 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 04:32:51 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	var_init(t_structs	*g)
 	g->player->walkdirection = 0;
 	g->player->rotationangle = get_angle(g->map->map[(int)g->map->py]
 		[(int)g->map->px]);
-	g->player->movespeed = 15;
-	g->player->rotationspeed = 15 * (M_PI / 180.0);
+	g->player->movespeed = 10;
+	g->player->rotationspeed = 10 * (M_PI / 180.0);
 	g->cast->fov_angle = 60.0 * (M_PI / 180.0);
 	g->cast->stripwidth = 1;
 	g->cast->num_rays = WIDTH / g->cast->stripwidth;
@@ -90,7 +90,6 @@ void	get_color_cf(t_structs *g)
 
 int ft_exit()
 {
-	puts("Exit");
 	exit(0);
 	return (0);
 }
