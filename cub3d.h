@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/03 05:18:02 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 01:40:57 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,8 @@ int Check_map(t_structs *g, char *file);
 //<----------------- paesing----------------->
 int	get_texture(char *line, t_map *map, int i);
 void Get_data(int fd, t_map *map);
-int Get_color(char *line, t_map *map, int i);\
+int Get_color(char *line, t_map *map, int i);
 void Get_map(int fd, t_map *map, char *line);
+char *genarate(int size);
+void get_player_position(t_map *map);
 #endif

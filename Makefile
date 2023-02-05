@@ -15,13 +15,14 @@ SRCS =	player.c \
 		parsing/player_check.c \
 		parsing/utils.c \
 		parsing/parsing.c \
-		parsing/parsing_utils.c
+		parsing/parsing_utils.c \
+		parsing/get_data.c
 
 CC = cc
 
 OBJS = $(SRCS:%.c=%.o)
 
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror
 
 LIBFT = ./libft/libft.a
 
