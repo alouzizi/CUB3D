@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 02:19:47 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 05:30:14 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 11:36:08 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ int	key_hook(int key, t_structs *g)
 		g->player->rotationangle -= g->player->rotationspeed;
 	if (key == 13 || key == 1 || key == 0 || key == 2)
 		update(g);
+	if (key == 53)
+		exit(0);
 	return (0);
 }
 
