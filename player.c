@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 02:19:47 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 04:05:42 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 05:30:14 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,6 @@ void	update(t_structs *g)
 	double	x;
 	double	y;
 
-	double newx;
-	double newy;
-
-	newx = 0;
-	newy = 0;
 	step = g->player->walkdirection * g->player->movespeed;
 	x = round(g->player->x + cos(g->player->rotationangle) * step);
 	y = round(g->player->y + sin(g->player->rotationangle) * step);

@@ -6,13 +6,13 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 03:04:05 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 03:03:28 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 05:36:15 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-int check_file(char *file)
+int	check_file(char *file)
 {
 	int	fd;
 
@@ -41,13 +41,14 @@ int	check_file_extention(char *file)
 	return (1);
 }
 
-int Check_map(t_structs *g, char *file)
+int	check_map(t_structs *g, char *file)
 {
 	int	fd;
+
 	g->map = malloc(sizeof(t_map));
 	if (!g->map)
 		exit(1);
 	fd = check_file(file);
-	Get_data(fd, g->map);
+	get_data(fd, g->map);
 	return (1);
 }

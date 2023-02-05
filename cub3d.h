@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 04:25:50 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 06:24:56 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,13 +151,14 @@ typedef union u_color
 
 //<----------------- paesing ----------------->
 
-int	get_texture(char *line, t_map *map, int i);
-void Get_data(int fd, t_map *map);
-int Get_color(char *line, t_map *map, int i);
-void Get_map(int fd, t_map *map, char *line);
-char *genarate(int size);
-void get_player_position(t_map *map);
-int	check_file_extention(char *file);
+int		get_texture(char *line, t_map *map, int i);
+void	get_data(int fd, t_map *map);
+int		get_color(char *line, t_map *map, int i);
+void	get_map(int fd, t_map *map, char *line);
+char	*genarate(int size);
+void	get_player_position(t_map *map);
+int		check_file_extention(char *file);
+char	*free_strjoin(char *s1, char *s2, int o);
 
 //<----------------- mandatory ----------------->
 float	get_angle(char c);
@@ -177,6 +178,7 @@ void	while_wall(t_structs *g, float xstep, float ystep, int i);
 float	distancebetweenpoints(t_structs *g, float x, float y);
 void	projectionwall(t_structs *g, int id);
 char	*get_next_line(int fd);
-int		convert_rgb_to_dec(int r, int g, int b, int a);
-int		Check_map(t_structs *g, char *file);
+int		ft_exit(void);
+int		check_map(t_structs *g, char *file);
+void	error_exit(char *str);
 #endif

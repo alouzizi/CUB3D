@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/08 04:06:01 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 03:21:21 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 06:31:36 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,8 @@ float	get_angle(char c)
 	return (0);
 }
 
-int	convert_rgb_to_dec(int r, int g, int b, int a)
+int	ft_exit(void)
 {
-	t_color	conver;
-
-	conver.rgb[2] = (unsigned char)r;
-	conver.rgb[1] = (unsigned char)g;
-	conver.rgb[0] = (unsigned char)b;
-	conver.rgb[3] = (unsigned char)a;
-	return (conver.color);
+	exit(0);
+	return (0);
 }

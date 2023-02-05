@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 04:32:51 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 05:44:31 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ void	var_init(t_structs	*g)
 	g->ray = malloc(sizeof(t_ray));
 	if (!g->player || !g->mlx || !g->cast || !g->ray)
 		exit(1);
-	g->player->x = (g->map->px + 0.5)* TILE_SIZE;
-	g->player->y = (g->map->py + 0.5)* TILE_SIZE;
+	g->player->x = (g->map->px + 0.5) * TILE_SIZE;
+	g->player->y = (g->map->py + 0.5) * TILE_SIZE;
 	g->player->radius = 3;
 	g->player->turndirection = 0;
 	g->player->walkdirection = 0;
 	g->player->rotationangle = get_angle(g->map->map[(int)g->map->py]
 		[(int)g->map->px]);
-	g->player->movespeed = 10;
-	g->player->rotationspeed = 10 * (M_PI / 180.0);
+	g->player->movespeed = 15;
+	g->player->rotationspeed = 15 * (M_PI / 180.0);
 	g->cast->fov_angle = 60.0 * (M_PI / 180.0);
 	g->cast->stripwidth = 1;
 	g->cast->num_rays = WIDTH / g->cast->stripwidth;
@@ -56,13 +56,13 @@ void	texture_init(t_structs *g)
 	g->texture = malloc(sizeof(t_texture));
 	if (!g->texture)
 		exit(1);
-	g->texture->img_no = mlx_xpm_file_to_image(g->mlx->mlx, g->map->no ,
+	g->texture->img_no = mlx_xpm_file_to_image(g->mlx->mlx, g->map->no,
 			&g->texture->width, &g->texture->height);
-	g->texture->img_so = mlx_xpm_file_to_image(g->mlx->mlx, g->map->so ,
+	g->texture->img_so = mlx_xpm_file_to_image(g->mlx->mlx, g->map->so,
 			&g->texture->width, &g->texture->height);
-	g->texture->img_we = mlx_xpm_file_to_image(g->mlx->mlx, g->map->we ,
+	g->texture->img_we = mlx_xpm_file_to_image(g->mlx->mlx, g->map->we,
 			&g->texture->width, &g->texture->height);
-	g->texture->img_ea = mlx_xpm_file_to_image(g->mlx->mlx, g->map->ea ,
+	g->texture->img_ea = mlx_xpm_file_to_image(g->mlx->mlx, g->map->ea,
 			&g->texture->width, &g->texture->height);
 	if (!g->texture->img_no || !g->texture->img_so || !g->texture->img_we
 		|| !g->texture->img_ea)
@@ -80,34 +80,19 @@ void	texture_init(t_structs *g)
 			&g->texture->bpp, &g->texture->line_len, &g->texture->endian);
 }
 
-void	get_color_cf(t_structs *g)
-{
-	g->texture->color_c = convert_rgb_to_dec(g->map->c[0],
-			g->map->c[1], g->map->c[2], 0);
-	g->texture->color_f = convert_rgb_to_dec(g->map->f[0],
-			g->map->f[1], g->map->f[2], 0);
-}
-
-int ft_exit()
-{
-	exit(0);
-	return (0);
-}
-
 int	main(int ac, char **av)
 {
 	t_structs	game;
 
 	if (ac == 2)
 	{
-		if (!Check_map(&game, av[1]))
+		if (!check_map(&game, av[1]))
 			return (1);
 		var_init(&game);
 		texture_init(&game);
-		get_color_cf(&game);
 		render(&game);
 		mlx_hook(game.mlx->win, 2, 0, key_hook, &game);
-		mlx_hook(game.mlx->win, 17, 0, ft_exit, &game);
+		mlx_hook(game.mlx->win, 17, 0, ft_exit, NULL);
 		mlx_key_hook(game.mlx->win, key_hook, &game);
 		mlx_loop_hook(game.mlx->mlx, render, &game);
 		mlx_loop(game.mlx->mlx);

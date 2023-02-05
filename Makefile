@@ -9,6 +9,7 @@ SRCS =	player.c \
 		get_next_line.c \
 		parsing/parsing.c \
 		parsing/utils.c \
+		parsing/utils2.c \
 		parsing/get_data.c
 
 CC = cc

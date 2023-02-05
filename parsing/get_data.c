@@ -6,15 +6,15 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 01:37:03 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 01:39:34 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 06:29:46 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-char *get_path(char *line)
+char	*get_path(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i] != '\0')
@@ -42,10 +42,10 @@ int	get_texture(char *line, t_map *map, int i)
 		map->we = ft_strdup(&line[j]);
 	else if (i == EA)
 		map->ea = ft_strdup(&line[j]);
-	return (i);
+	return (1);
 }
 
-int Get_color(char *line, t_map *map, int i)
+int	get_color(char *line, t_map *map, int i)
 {
 	int	j;
 	int	r;
@@ -68,84 +68,117 @@ int Get_color(char *line, t_map *map, int i)
 		map->ff = (r << 16) + (g << 8) + b;
 	else if (i == C)
 		map->cc = (r << 16) + (g << 8) + b;
-	return (i);
+	return (1);
 }
 
-void Get_map(int fd, t_map *map, char *line)
+void	get_map(int fd, t_map *map, char *line)
 {
-	int i;
-	char *tmp;
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	map->row = 0;
 	tmp = ft_strdup("");
 	map->column = ft_strlen(line);
-	while(line)
+	while (line)
 	{
-		tmp = ft_strjoin(tmp, line);
+		tmp = free_strjoin(tmp, line, 3);
 		map->row++;
 		line = get_next_line(fd);
 	}
 	i = 0;
-	map->map =  ft_split(tmp, '\n');
-	while(map->map[i])
+	while (tmp[i])
 	{
-		if ((int) ft_strlen(map->map[i]) > map->column)
+		if (tmp[i] == '\n' && tmp[i + 1] == '\n')
+			error_exit("Error\nMissing data\n");
+		i++;
+	}
+	i = 0;
+	map->map = ft_split(tmp, '\n');
+	free(tmp);
+	while (map->map[i])
+	{
+		if ((int)ft_strlen(map->map[i]) > map->column)
 			map->column = ft_strlen(map->map[i]);
 		i++;
 	}
 	i = 0;
-	while(map->map[i])
+	while (map->map[i])
 	{
-		if (((int) ft_strlen(map->map[i])) < map->column)
-			map->map[i] = ft_strjoin(map->map[i], genarate(map->column - ft_strlen(map->map[i])));
+		if (((int)ft_strlen(map->map[i])) < map->column)
+			map->map[i] = free_strjoin(map->map[i], genarate(map->column - ft_strlen(map->map[i])), 3);
 		i++;
 	}
+	// if (!check_wall(map->map, map->row, map->column))
+	// {
+	// 	ft_putstr_fd("Error\nMissing wall\n", 2);
+	// 	exit(1);
+	// }
 }
 
-void Get_data(int fd, t_map *map)
+// int check_wall(char **map ,int row, int col)
+// {
+// 	int x;
+// 	int y;
+
+// 	x = 0;
+// 	y = 0;
+// 	row -= 1;
+// 	col -= 1;
+// 	while(map[y])
+// 	{
+// 		while(map[y][x])
+// 		{
+// 			if (map[y][x] == 0 && (y == 0  || x == 0 || x  == row || y == col ))
+// 				return (0);
+// 		}
+// 		y++;
+// 	}
+// }
+
+void	get_data(int fd, t_map *map)
 {
 	char	*line;
 	int		i;
-	
-	i = 0;
+	int		found[7];
+
+	i = 7;
 	line = get_next_line(fd);
+	while (i--)
+		found[i] = 0;
+	if (!line)
+		error_exit("Error\nMissing data\n");
 	while (line)
 	{
 		if (line[0] == 'N' && line[1] == 'O')
-			i += get_texture(line, map, NO);
+			found[0] += get_texture(line, map, NO);
 		else if (line[0] == 'S' && line[1] == 'O')
-			i += get_texture(line, map, SO);
+			found[1] += get_texture(line, map, SO);
 		else if (line[0] == 'W' && line[1] == 'E')
-			i += get_texture(line, map, WE);
+			found[2] += get_texture(line, map, WE);
 		else if (line[0] == 'E' && line[1] == 'A')
-			i += get_texture(line, map, EA);
+			found[3] += get_texture(line, map, EA);
 		else if (line[0] == 'F')
-			i += Get_color(line, map, F);
+			found[4] += get_color(line, map, F);
 		else if (line[0] == 'C')
-			i += Get_color(line, map, C);
-		else if (line[0] == '0' || line[0] == '1' || line[0] == ' ' )
+			found[5] += get_color(line, map, C);
+		else if (line[0] == '0' || line[0] == '1' || line[0] == ' ')
 		{
-			if (i != 21)
+			i = 6;
+			while (i--)
 			{
-				ft_putstr_fd("Error\nMissing data\n", 2);
-				exit(1);
+				if (found[i] == 0 || found[i] > 1)
+					error_exit("Error\nMissing data\n");
 			}
-			break;
+			found[6] = 1;
+			break ;
 		}
 		free(line);
 		line = get_next_line(fd);
 	}
-	Get_map(fd, map, line);
-	free(line);
+	if (found[6] == 0)
+		error_exit("Error\nMissing data\n");
+	get_map(fd, map, line);
+	//free(line);
 	get_player_position(map);
-	// puts("******************");
-	// printf("NO: %s\n", map->no);
-	// printf("SO: %s\n", map->so);
-	// printf("WE: %s\n", map->we);
-	// printf("EA: %s\n", map->ea);
-	// printf("F: %d\n", map->ff);
-	// printf("C: %d\n", map->cc);
-	// // printf("MAP: %s\n", map->map);
-	// puts("******************");
 }

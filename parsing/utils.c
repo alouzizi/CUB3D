@@ -1,22 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing_utils.c                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 04:55:33 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 01:39:28 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 05:41:17 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-
-char *ft_calloc(int size)
+char	*ft_calloc(int size)
 {
-	char *str;
-	int i;
+	char	*str;
+	int		i;
 
 	i = 0;
 	str = malloc(size);
@@ -28,10 +27,10 @@ char *ft_calloc(int size)
 	return (str);
 }
 
-char *genarate(int size)
+char	*genarate(int size)
 {
-	char *str;
-	int i;
+	char	*str;
+	int		i;
 
 	i = 0;
 	str = malloc(size + 1);
@@ -46,28 +45,36 @@ char *genarate(int size)
 	return (str);
 }
 
-
-void get_player_position(t_map *map)
+void	get_player_position(t_map *map)
 {
-	int y;
-	int x;
+	int	found;
+	int	y;
+	int	x;
 
 	y = 0;
 	x = 0;
-	while(map->map[y])
+	found = 0;
+	while (map->map[y])
 	{
-		while(map->map[y][x])
+		while (map->map[y][x])
 		{
 			if (map->map[y][x] == 'N' || map->map[y][x] == 'S' || map->map[y][x] == 'E' || map->map[y][x] == 'W')
 			{
 				map->px = x;
 				map->py = y;
-				// map->player_dir = map->map[y][x];
-				// map->map[y][x] = '0';
+				found += 1;
 			}
 			x++;
 		}
 		x = 0;
 		y++;
 	}
+	if (!found || found > 1)
+		error_exit("Error\nplayer position notfound or more than one player\n");
+}
+
+void	error_exit(char *str)
+{
+	ft_putstr_fd(str, 2);
+	exit(1);
 }
