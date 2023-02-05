@@ -6,25 +6,11 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 01:37:03 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 06:29:46 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 09:55:25 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
-
-char	*get_path(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i] != '\0')
-	{
-		if (line[i] == ' ' || line[i] == '\n')
-			line[i] = '\0';
-		i++;
-	}
-	return (line);
-}
 
 int	get_texture(char *line, t_map *map, int i)
 {
@@ -75,27 +61,11 @@ void	get_map(int fd, t_map *map, char *line)
 {
 	char	*tmp;
 	int		i;
+	int		j;
 
+	j = 0;
 	i = 0;
-	map->row = 0;
-	tmp = ft_strdup("");
-	map->column = ft_strlen(line);
-	while (line)
-	{
-		tmp = free_strjoin(tmp, line, 3);
-		map->row++;
-		line = get_next_line(fd);
-	}
-	i = 0;
-	while (tmp[i])
-	{
-		if (tmp[i] == '\n' && tmp[i + 1] == '\n')
-			error_exit("Error\nMissing data\n");
-		i++;
-	}
-	i = 0;
-	map->map = ft_split(tmp, '\n');
-	free(tmp);
+	join_lines(map, line, fd);
 	while (map->map[i])
 	{
 		if ((int)ft_strlen(map->map[i]) > map->column)
@@ -106,48 +76,22 @@ void	get_map(int fd, t_map *map, char *line)
 	while (map->map[i])
 	{
 		if (((int)ft_strlen(map->map[i])) < map->column)
-			map->map[i] = free_strjoin(map->map[i], genarate(map->column - ft_strlen(map->map[i])), 3);
+		{
+			tmp = genarate(map->column - ft_strlen(map->map[i]));
+			map->map[i] = free_strjoin(map->map[i], tmp, 3);
+		}
 		i++;
 	}
-	// if (!check_wall(map->map, map->row, map->column))
-	// {
-	// 	ft_putstr_fd("Error\nMissing wall\n", 2);
-	// 	exit(1);
-	// }
+	if (check_wall(map->map) == 0)
+		error_exit("Error\nMissing wall\n");
 }
 
-// int check_wall(char **map ,int row, int col)
-// {
-// 	int x;
-// 	int y;
-
-// 	x = 0;
-// 	y = 0;
-// 	row -= 1;
-// 	col -= 1;
-// 	while(map[y])
-// 	{
-// 		while(map[y][x])
-// 		{
-// 			if (map[y][x] == 0 && (y == 0  || x == 0 || x  == row || y == col ))
-// 				return (0);
-// 		}
-// 		y++;
-// 	}
-// }
-
-void	get_data(int fd, t_map *map)
+char	*found_data(char *line, t_map *map, int fd, int i)
 {
-	char	*line;
-	int		i;
-	int		found[7];
+	int	found[6];
 
-	i = 7;
-	line = get_next_line(fd);
 	while (i--)
 		found[i] = 0;
-	if (!line)
-		error_exit("Error\nMissing data\n");
 	while (line)
 	{
 		if (line[0] == 'N' && line[1] == 'O')
@@ -163,22 +107,23 @@ void	get_data(int fd, t_map *map)
 		else if (line[0] == 'C')
 			found[5] += get_color(line, map, C);
 		else if (line[0] == '0' || line[0] == '1' || line[0] == ' ')
-		{
-			i = 6;
-			while (i--)
-			{
-				if (found[i] == 0 || found[i] > 1)
-					error_exit("Error\nMissing data\n");
-			}
-			found[6] = 1;
-			break ;
-		}
+			return (check(found, line));
 		free(line);
 		line = get_next_line(fd);
 	}
-	if (found[6] == 0)
+	return (NULL);
+}
+
+void	get_data(int fd, t_map *map)
+{
+	char	*line;
+
+	line = get_next_line(fd);
+	if (!line)
+		error_exit("Error\nMissing data\n");
+	line = found_data(line, map, fd, 6);
+	if (!line)
 		error_exit("Error\nMissing data\n");
 	get_map(fd, map, line);
-	//free(line);
 	get_player_position(map);
 }

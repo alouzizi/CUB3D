@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 04:55:33 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 05:41:17 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 09:56:03 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	get_player_position(t_map *map)
 	{
 		while (map->map[y][x])
 		{
-			if (map->map[y][x] == 'N' || map->map[y][x] == 'S' || map->map[y][x] == 'E' || map->map[y][x] == 'W')
+			if (map->map[y][x] == 'N' || map->map[y][x] == 'S'
+				|| map->map[y][x] == 'E' || map->map[y][x] == 'W')
 			{
 				map->px = x;
 				map->py = y;
@@ -77,4 +78,17 @@ void	error_exit(char *str)
 {
 	ft_putstr_fd(str, 2);
 	exit(1);
+}
+
+char	*check(int found[6], char *line)
+{
+	int	i;
+
+	i = 6;
+	while (i--)
+	{
+		if (found[i] == 0 || found[i] > 1)
+			error_exit("Error\nMissing data\n");
+	}
+	return (line);
 }

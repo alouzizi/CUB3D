@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 06:24:56 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 09:55:38 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <limits.h>
-# include <stdbool.h>
 # include <fcntl.h>
 # include "libft/libft.h"
-# define PI 3.1415926535
-# define MINIMAP 0.2
 # define TILE_SIZE 63
-# define WALL_STRIP_WIDTH 1
 # define NO 1
 # define SO 2
 # define WE 3
@@ -61,8 +57,6 @@ typedef struct texture
 	int		endian;
 	int		width;
 	int		height;
-	int		color_c;
-	int		color_f;
 }t_texture;
 
 typedef struct player
@@ -87,15 +81,11 @@ typedef struct map
 	int		color;
 	int		row;
 	int		column;
-	int		maap[12][20];
 	char	*no;
 	char	*so;
 	char	*we;
 	char	*ea;
-	int		f[3];
-	int		c[3];
 	char	**map;
-	char	**o_map;
 	int		ff;
 	int		cc;
 }t_map;
@@ -181,4 +171,9 @@ char	*get_next_line(int fd);
 int		ft_exit(void);
 int		check_map(t_structs *g, char *file);
 void	error_exit(char *str);
+int		check_wall(char **map);
+void	join_lines(t_map *map, char *line, int fd);
+char	*check(int found[6], char *line);
+void	join_lines(t_map *map, char *line, int fd);
+char	*get_path(char *line);
 #endif
