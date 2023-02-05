@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/05 01:37:03 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 09:55:25 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 11:06:57 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ char	*found_data(char *line, t_map *map, int fd, int i)
 void	get_data(int fd, t_map *map)
 {
 	char	*line;
+	int		i;
+	int		j;
 
 	line = get_next_line(fd);
 	if (!line)
@@ -125,5 +127,16 @@ void	get_data(int fd, t_map *map)
 	if (!line)
 		error_exit("Error\nMissing data\n");
 	get_map(fd, map, line);
+	j = -1;
+	while (map->map[++j])
+	{
+		i = 0;
+		while (map->map[j][i])
+		{
+			if (!valid(&map->map[j][i]) && map->map[j][i] != ' ')
+				error_exit("Error\nInvalid map\n");
+			i++;
+		}
+	}
 	get_player_position(map);
 }

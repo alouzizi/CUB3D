@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 09:55:38 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 10:52:32 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,4 +176,5 @@ void	join_lines(t_map *map, char *line, int fd);
 char	*check(int found[6], char *line);
 void	join_lines(t_map *map, char *line, int fd);
 char	*get_path(char *line);
+int		valid(char *map);
 #endif
