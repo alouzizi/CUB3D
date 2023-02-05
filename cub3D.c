@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/07 04:55:13 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 01:48:19 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 02:58:51 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	var_init(t_structs	*g)
 	g->ray = malloc(sizeof(t_ray));
 	if (!g->player || !g->mlx || !g->cast || !g->ray)
 		exit(1);
-	g->player->x = g->map->px * TILE_SIZE;
-	g->player->y = g->map->py * TILE_SIZE;
+	g->player->x = (g->map->px + 0.5)* TILE_SIZE;
+	g->player->y = (g->map->py + 0.5)* TILE_SIZE;
 	g->player->radius = 3;
 	g->player->turndirection = 0;
 	g->player->walkdirection = 0;
@@ -88,6 +88,13 @@ void	get_color_cf(t_structs *g)
 			g->map->f[1], g->map->f[2], 0);
 }
 
+int ft_exit()
+{
+	puts("Exit");
+	exit(0);
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_structs	game;
@@ -101,6 +108,7 @@ int	main(int ac, char **av)
 		get_color_cf(&game);
 		render(&game);
 		mlx_hook(game.mlx->win, 2, 0, key_hook, &game);
+		mlx_hook(game.mlx->win, 17, 0, ft_exit, &game);
 		mlx_key_hook(game.mlx->win, key_hook, &game);
 		mlx_loop_hook(game.mlx->mlx, render, &game);
 		mlx_loop(game.mlx->mlx);

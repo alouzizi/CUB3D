@@ -7,15 +7,8 @@ SRCS =	player.c \
 		cast.c \
 		projection.c \
 		get_next_line.c \
-		parsing/check_assets.c \
-		parsing/check_map.c \
-		parsing/get_map.c \
-		parsing/map_utils.c \
-		parsing/map_utils2.c \
-		parsing/player_check.c \
-		parsing/utils.c \
 		parsing/parsing.c \
-		parsing/parsing_utils.c \
+		parsing/utils.c \
 		parsing/get_data.c
 
 CC = cc

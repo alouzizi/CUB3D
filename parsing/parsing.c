@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 03:04:05 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/03 05:00:45 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 03:03:28 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int check_file(char *file)
 {
 	int	fd;
 
-	if (!ft_check_extention(file))
+	if (!check_file_extention(file))
 		exit(1);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)

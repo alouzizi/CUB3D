@@ -1,68 +1,73 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/10 23:44:45 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/01/11 01:15:01 by alouzizi         ###   ########.fr       */
+/*   Created: 2023/02/03 04:55:33 by alouzizi          #+#    #+#             */
+/*   Updated: 2023/02/05 01:39:28 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../cub3d.h"
 
-void	init_data(t_map *map)
-{
-	ft_memset(map, 0, sizeof(t_map));
-	ft_memset(map->f, -1, sizeof(map->f));
-	ft_memset(map->c, -1, sizeof(map->c));
-}
 
-void	free_tab(char ***tab)
+char *ft_calloc(int size)
 {
-	char	**t;
-	int		i;
-
-	t = *tab;
-	i = 0;
-	if (!t)
-		return ;
-	while (t[i])
-		free(t[i++]);
-	free(t);
-}
-
-int	max_width(char **s)
-{
-	int		i;
-	int		max;
+	char *str;
+	int i;
 
 	i = 0;
-	max = 0;
-	while (s[i])
+	str = malloc(size);
+	while (i < size)
 	{
-		if (get_strlen(s[i]) > max)
-			max = get_strlen(s[i]);
+		str[i] = 0;
 		i++;
 	}
-	return (max);
+	return (str);
 }
 
-char	*cut(char *str, char **dist)
+char *genarate(int size)
 {
-	int		start;
-	int		end;
+	char *str;
+	int i;
 
-	start = 0;
-	end = ft_strlen(str) - 2;
-	while (str[start] == ' ')
-		start++;
-	while (str[end] == ' ')
-		end--;
-	if (end - start < 0)
-		*dist = ft_strdup("");
-	else
-		*dist = ft_substr(str, start, end - start + 1);
-	return (*dist);
+	i = 0;
+	str = malloc(size + 1);
+	if (!str)
+		return (NULL);
+	while (i < size)
+	{
+		str[i] = ' ';
+		i++;
+	}
+	str[i] = '\0';
+	return (str);
+}
+
+
+void get_player_position(t_map *map)
+{
+	int y;
+	int x;
+
+	y = 0;
+	x = 0;
+	while(map->map[y])
+	{
+		while(map->map[y][x])
+		{
+			if (map->map[y][x] == 'N' || map->map[y][x] == 'S' || map->map[y][x] == 'E' || map->map[y][x] == 'W')
+			{
+				map->px = x;
+				map->py = y;
+				// map->player_dir = map->map[y][x];
+				// map->map[y][x] = '0';
+			}
+			x++;
+		}
+		x = 0;
+		y++;
+	}
 }

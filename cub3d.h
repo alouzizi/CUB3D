@@ -6,7 +6,7 @@
 /*   By: alouzizi <alouzizi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/11 02:05:40 by alouzizi          #+#    #+#             */
-/*   Updated: 2023/02/05 01:40:57 by alouzizi         ###   ########.fr       */
+/*   Updated: 2023/02/05 03:06:19 by alouzizi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,17 @@ typedef union u_color
 	int				color;
 }			t_color;
 
+//<----------------- paesing ----------------->
+
+int	get_texture(char *line, t_map *map, int i);
+void Get_data(int fd, t_map *map);
+int Get_color(char *line, t_map *map, int i);
+void Get_map(int fd, t_map *map, char *line);
+char *genarate(int size);
+void get_player_position(t_map *map);
+int	check_file_extention(char *file);
+
+//<----------------- mandatory ----------------->
 float	get_angle(char c);
 void	var_init(t_structs *g);
 int		render(t_structs *g);
@@ -165,43 +176,7 @@ void	verticale(t_structs *g);
 void	while_wall(t_structs *g, float xstep, float ystep, int i);
 float	distancebetweenpoints(t_structs *g, float x, float y);
 void	projectionwall(t_structs *g, int id);
-bool	get_map(char *file, t_map *map);
-bool	ft_check_extention(char *str);
-int		open_file(char *file);
-bool	is_empty(char **line, int i);
-bool	parsing_assets(t_map *map);
-bool	assets_check(t_map *map);
-int		tab_len(char **s);
-bool	if_valid(int *tab);
-bool	range_check(int num);
-bool	check_p_map(t_map *map);
-void	init_data(t_map *map);
-char	*str_proc(char *str, int width);
-int		get_strlen(char *s);
-char	*trim_n(char *str);
-bool	init_map(t_map *map);
-bool	check_map(char *str, t_structs *g);
-bool	check_sides(char **player_map, int i, int j);
-int		get_type(char *type);
-bool	check_commas(char **str, int index);
-bool	find_texture(t_map *map, int type, int index);
-bool	if_xpm(char *str);
-bool	find_colors(t_map *map, int type, int index);
-bool	get_color(t_map *map, int index, char flag);
-bool	if_map_valid(t_map *map);
-bool	check_elem(int *player_count, t_map *map, int i, int j);
-bool	if_player(char c);
-void	free_tab(char ***tab);
-int		max_width(char **s);
-char	*cut(char *str, char **dist);
 char	*get_next_line(int fd);
 int		convert_rgb_to_dec(int r, int g, int b, int a);
-int Check_map(t_structs *g, char *file);
-//<----------------- paesing----------------->
-int	get_texture(char *line, t_map *map, int i);
-void Get_data(int fd, t_map *map);
-int Get_color(char *line, t_map *map, int i);
-void Get_map(int fd, t_map *map, char *line);
-char *genarate(int size);
-void get_player_position(t_map *map);
+int		Check_map(t_structs *g, char *file);
 #endif
